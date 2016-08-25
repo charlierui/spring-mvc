@@ -1,0 +1,913 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.app.dao.resident.ResidentMapper" >
+  <resultMap id="BaseResultMap" type="com.app.model.Resident" >
+    <id column="pk_resident" property="pkResident" jdbcType="CHAR" />
+    <result column="resname" property="resname" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="CHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="height" property="height" jdbcType="DECIMAL" />
+    <result column="weight" property="weight" jdbcType="DECIMAL" />
+    <result column="qrcode" property="qrcode" jdbcType="VARCHAR" />
+    <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR" />
+    <result column="residenadres" property="residenadres" jdbcType="VARCHAR" />
+    <result column="sign" property="sign" jdbcType="CHAR" />
+    <result column="pk_doctor" property="pkDoctor" jdbcType="CHAR" />
+    <result column="doctorname" property="doctorname" jdbcType="VARCHAR" />
+    <result column="face" property="face" jdbcType="VARCHAR" />
+    <result column="idnumber" property="idnumber" jdbcType="VARCHAR" />
+    <result column="isenabled" property="isenabled" jdbcType="CHAR" />
+    <result column="homeadres" property="homeadres" jdbcType="VARCHAR" />
+    <result column="medicanum" property="medicanum" jdbcType="VARCHAR" />
+    <result column="personalnum" property="personalnum" jdbcType="VARCHAR" />
+    <result column="vocation" property="vocation" jdbcType="VARCHAR" />
+    <result column="otherlink" property="otherlink" jdbcType="CHAR" />
+    <result column="wedlock" property="wedlock" jdbcType="CHAR" />
+    <result column="unitoraddress" property="unitoraddress" jdbcType="VARCHAR" />
+    <result column="pk_user" property="pkUser" jdbcType="CHAR" />
+    <result column="responcomm" property="responcomm" jdbcType="CHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="pk_area" property="pkArea" jdbcType="CHAR" />
+    <result column="areaname" property="areaname" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="pk_hospatil" property="pkHospatil" jdbcType="CHAR" />
+    <result column="hospital" property="hospital" jdbcType="CHAR" />
+    <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+    <result column="linkphone" property="linkphone" jdbcType="VARCHAR" />
+    <result column="birthdate" property="birthdate" jdbcType="CHAR" />
+    <result column="filiation" property="filiation" jdbcType="VARCHAR" />
+    <result column="accountproperty" property="accountproperty" jdbcType="VARCHAR" />
+    <result column="residetype" property="residetype" jdbcType="VARCHAR" />
+    <result column="oftentype" property="oftentype" jdbcType="VARCHAR" />
+    <result column="nation" property="nation" jdbcType="VARCHAR" />
+    <result column="bloodtype" property="bloodtype" jdbcType="VARCHAR" />
+    <result column="rh_negative" property="rhNegative" jdbcType="VARCHAR" />
+    <result column="education" property="education" jdbcType="VARCHAR" />
+    <result column="peoplenum" property="peoplenum" jdbcType="INTEGER" />
+    <result column="paytype" property="paytype" jdbcType="VARCHAR" />
+    <result column="peoplenum2" property="peoplenum2" jdbcType="INTEGER" />
+    <result column="anamnesis" property="anamnesis" jdbcType="VARCHAR" />
+    <result column="allergies" property="allergies" jdbcType="VARCHAR" />
+    <result column="waist" property="waist" jdbcType="VARCHAR" />
+    <result column="whether_registration" property="whetherRegistration" jdbcType="CHAR" />
+    <result column="residentCode" property="residentcode" jdbcType="VARCHAR" />
+    <result column="residentNum" property="residentnum" jdbcType="VARCHAR" />
+    <result column="fuwujgbh" property="fuwujgbh" jdbcType="VARCHAR" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="start_date" property="startDate" jdbcType="CHAR" />
+    <result column="end_date" property="endDate" jdbcType="CHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="gxdz" property="gxdz" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="CHAR" />
+    <result column="pk_gxy" property="pkGxy" jdbcType="CHAR" />
+    <result column="pk_tnb" property="pkTnb" jdbcType="CHAR" />
+    <result column="pk_zl" property="pkZl" jdbcType="CHAR" />
+    <result column="pk_gxb" property="pkGxb" jdbcType="CHAR" />
+    <result column="pk_jsb" property="pkJsb" jdbcType="CHAR" />
+    <result column="pk_lnr" property="pkLnr" jdbcType="CHAR" />
+    <result column="ybkh" property="ybkh" jdbcType="VARCHAR" />
+    <result column="zh" property="zh" jdbcType="VARCHAR" />
+    <result column="brlb" property="brlb" jdbcType="CHAR" />
+    <result column="brxz" property="brxz" jdbcType="CHAR" />
+    <result column="xb" property="xb" jdbcType="CHAR" />
+    <result column="dwmc" property="dwmc" jdbcType="VARCHAR" />
+    <result column="tsbbz" property="tsbbz" jdbcType="CHAR" />
+    <result column="updatedate" property="updatedate" jdbcType="VARCHAR" />
+    <result column="updatecount" property="updatecount" jdbcType="INTEGER" />
+    <result column="sfdz" property="sfdz" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    pk_resident, resname, sex, age, title, height, weight, qrcode, phone_number, residenadres, 
+    sign, pk_doctor, doctorname, face, idnumber, isenabled, homeadres, medicanum, personalnum, 
+    vocation, otherlink, wedlock, unitoraddress, pk_user, responcomm, username, pk_area, 
+    areaname, address, pk_hospatil, hospital, telephone, linkphone, birthdate, filiation, 
+    accountproperty, residetype, oftentype, nation, bloodtype, rh_negative, education, 
+    peoplenum, paytype, peoplenum2, anamnesis, allergies, waist, whether_registration, 
+    residentCode, residentNum, fuwujgbh, order_no, start_date, end_date, status, gxdz, 
+    createtime, pk_gxy, pk_tnb, pk_zl, pk_gxb, pk_jsb, pk_lnr, ybkh, zh, brlb, brxz, 
+    xb, dwmc, tsbbz, updatedate, updatecount, sfdz
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from resident
+    where pk_resident = #{pkResident,jdbcType=CHAR}
+  </select>
+  
+  <select id="selectByPager" resultMap="BaseResultMap"  parameterType="com.app.util.PageUtil">
+    select 
+    <include refid="Base_Column_List" />
+    from resident
+    
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from resident
+    where pk_resident = #{pkResident,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.app.model.Resident" >
+    insert into resident (pk_resident, resname, sex, 
+      age, title, height, 
+      weight, qrcode, phone_number, 
+      residenadres, sign, pk_doctor, 
+      doctorname, face, idnumber, 
+      isenabled, homeadres, medicanum, 
+      personalnum, vocation, otherlink, 
+      wedlock, unitoraddress, pk_user, 
+      responcomm, username, pk_area, 
+      areaname, address, pk_hospatil, 
+      hospital, telephone, linkphone, 
+      birthdate, filiation, accountproperty, 
+      residetype, oftentype, nation, 
+      bloodtype, rh_negative, education, 
+      peoplenum, paytype, peoplenum2, 
+      anamnesis, allergies, waist, 
+      whether_registration, residentCode, residentNum, 
+      fuwujgbh, order_no, start_date, 
+      end_date, status, gxdz, createtime, 
+      pk_gxy, pk_tnb, pk_zl, pk_gxb, 
+      pk_jsb, pk_lnr, ybkh, zh, 
+      brlb, brxz, xb, dwmc, 
+      tsbbz, updatedate, updatecount, 
+      sfdz)
+    values (#{pkResident,jdbcType=CHAR}, #{resname,jdbcType=VARCHAR}, #{sex,jdbcType=CHAR}, 
+      #{age,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{height,jdbcType=DECIMAL}, 
+      #{weight,jdbcType=DECIMAL}, #{qrcode,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, 
+      #{residenadres,jdbcType=VARCHAR}, #{sign,jdbcType=CHAR}, #{pkDoctor,jdbcType=CHAR}, 
+      #{doctorname,jdbcType=VARCHAR}, #{face,jdbcType=VARCHAR}, #{idnumber,jdbcType=VARCHAR}, 
+      #{isenabled,jdbcType=CHAR}, #{homeadres,jdbcType=VARCHAR}, #{medicanum,jdbcType=VARCHAR}, 
+      #{personalnum,jdbcType=VARCHAR}, #{vocation,jdbcType=VARCHAR}, #{otherlink,jdbcType=CHAR}, 
+      #{wedlock,jdbcType=CHAR}, #{unitoraddress,jdbcType=VARCHAR}, #{pkUser,jdbcType=CHAR}, 
+      #{responcomm,jdbcType=CHAR}, #{username,jdbcType=VARCHAR}, #{pkArea,jdbcType=CHAR}, 
+      #{areaname,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{pkHospatil,jdbcType=CHAR}, 
+      #{hospital,jdbcType=CHAR}, #{telephone,jdbcType=VARCHAR}, #{linkphone,jdbcType=VARCHAR}, 
+      #{birthdate,jdbcType=CHAR}, #{filiation,jdbcType=VARCHAR}, #{accountproperty,jdbcType=VARCHAR}, 
+      #{residetype,jdbcType=VARCHAR}, #{oftentype,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR}, 
+      #{bloodtype,jdbcType=VARCHAR}, #{rhNegative,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, 
+      #{peoplenum,jdbcType=INTEGER}, #{paytype,jdbcType=VARCHAR}, #{peoplenum2,jdbcType=INTEGER}, 
+      #{anamnesis,jdbcType=VARCHAR}, #{allergies,jdbcType=VARCHAR}, #{waist,jdbcType=VARCHAR}, 
+      #{whetherRegistration,jdbcType=CHAR}, #{residentcode,jdbcType=VARCHAR}, #{residentnum,jdbcType=VARCHAR}, 
+      #{fuwujgbh,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{startDate,jdbcType=CHAR}, 
+      #{endDate,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{gxdz,jdbcType=VARCHAR}, #{createtime,jdbcType=CHAR}, 
+      #{pkGxy,jdbcType=CHAR}, #{pkTnb,jdbcType=CHAR}, #{pkZl,jdbcType=CHAR}, #{pkGxb,jdbcType=CHAR}, 
+      #{pkJsb,jdbcType=CHAR}, #{pkLnr,jdbcType=CHAR}, #{ybkh,jdbcType=VARCHAR}, #{zh,jdbcType=VARCHAR}, 
+      #{brlb,jdbcType=CHAR}, #{brxz,jdbcType=CHAR}, #{xb,jdbcType=CHAR}, #{dwmc,jdbcType=VARCHAR}, 
+      #{tsbbz,jdbcType=CHAR}, #{updatedate,jdbcType=VARCHAR}, #{updatecount,jdbcType=INTEGER}, 
+      #{sfdz,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.app.model.Resident" >
+    insert into resident
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkResident != null" >
+        pk_resident,
+      </if>
+      <if test="resname != null" >
+        resname,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="height != null" >
+        height,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="qrcode != null" >
+        qrcode,
+      </if>
+      <if test="phoneNumber != null" >
+        phone_number,
+      </if>
+      <if test="residenadres != null" >
+        residenadres,
+      </if>
+      <if test="sign != null" >
+        sign,
+      </if>
+      <if test="pkDoctor != null" >
+        pk_doctor,
+      </if>
+      <if test="doctorname != null" >
+        doctorname,
+      </if>
+      <if test="face != null" >
+        face,
+      </if>
+      <if test="idnumber != null" >
+        idnumber,
+      </if>
+      <if test="isenabled != null" >
+        isenabled,
+      </if>
+      <if test="homeadres != null" >
+        homeadres,
+      </if>
+      <if test="medicanum != null" >
+        medicanum,
+      </if>
+      <if test="personalnum != null" >
+        personalnum,
+      </if>
+      <if test="vocation != null" >
+        vocation,
+      </if>
+      <if test="otherlink != null" >
+        otherlink,
+      </if>
+      <if test="wedlock != null" >
+        wedlock,
+      </if>
+      <if test="unitoraddress != null" >
+        unitoraddress,
+      </if>
+      <if test="pkUser != null" >
+        pk_user,
+      </if>
+      <if test="responcomm != null" >
+        responcomm,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="pkArea != null" >
+        pk_area,
+      </if>
+      <if test="areaname != null" >
+        areaname,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="pkHospatil != null" >
+        pk_hospatil,
+      </if>
+      <if test="hospital != null" >
+        hospital,
+      </if>
+      <if test="telephone != null" >
+        telephone,
+      </if>
+      <if test="linkphone != null" >
+        linkphone,
+      </if>
+      <if test="birthdate != null" >
+        birthdate,
+      </if>
+      <if test="filiation != null" >
+        filiation,
+      </if>
+      <if test="accountproperty != null" >
+        accountproperty,
+      </if>
+      <if test="residetype != null" >
+        residetype,
+      </if>
+      <if test="oftentype != null" >
+        oftentype,
+      </if>
+      <if test="nation != null" >
+        nation,
+      </if>
+      <if test="bloodtype != null" >
+        bloodtype,
+      </if>
+      <if test="rhNegative != null" >
+        rh_negative,
+      </if>
+      <if test="education != null" >
+        education,
+      </if>
+      <if test="peoplenum != null" >
+        peoplenum,
+      </if>
+      <if test="paytype != null" >
+        paytype,
+      </if>
+      <if test="peoplenum2 != null" >
+        peoplenum2,
+      </if>
+      <if test="anamnesis != null" >
+        anamnesis,
+      </if>
+      <if test="allergies != null" >
+        allergies,
+      </if>
+      <if test="waist != null" >
+        waist,
+      </if>
+      <if test="whetherRegistration != null" >
+        whether_registration,
+      </if>
+      <if test="residentcode != null" >
+        residentCode,
+      </if>
+      <if test="residentnum != null" >
+        residentNum,
+      </if>
+      <if test="fuwujgbh != null" >
+        fuwujgbh,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="startDate != null" >
+        start_date,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="gxdz != null" >
+        gxdz,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="pkGxy != null" >
+        pk_gxy,
+      </if>
+      <if test="pkTnb != null" >
+        pk_tnb,
+      </if>
+      <if test="pkZl != null" >
+        pk_zl,
+      </if>
+      <if test="pkGxb != null" >
+        pk_gxb,
+      </if>
+      <if test="pkJsb != null" >
+        pk_jsb,
+      </if>
+      <if test="pkLnr != null" >
+        pk_lnr,
+      </if>
+      <if test="ybkh != null" >
+        ybkh,
+      </if>
+      <if test="zh != null" >
+        zh,
+      </if>
+      <if test="brlb != null" >
+        brlb,
+      </if>
+      <if test="brxz != null" >
+        brxz,
+      </if>
+      <if test="xb != null" >
+        xb,
+      </if>
+      <if test="dwmc != null" >
+        dwmc,
+      </if>
+      <if test="tsbbz != null" >
+        tsbbz,
+      </if>
+      <if test="updatedate != null" >
+        updatedate,
+      </if>
+      <if test="updatecount != null" >
+        updatecount,
+      </if>
+      <if test="sfdz != null" >
+        sfdz,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkResident != null" >
+        #{pkResident,jdbcType=CHAR},
+      </if>
+      <if test="resname != null" >
+        #{resname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=CHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null" >
+        #{height,jdbcType=DECIMAL},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="qrcode != null" >
+        #{qrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null" >
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="residenadres != null" >
+        #{residenadres,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        #{sign,jdbcType=CHAR},
+      </if>
+      <if test="pkDoctor != null" >
+        #{pkDoctor,jdbcType=CHAR},
+      </if>
+      <if test="doctorname != null" >
+        #{doctorname,jdbcType=VARCHAR},
+      </if>
+      <if test="face != null" >
+        #{face,jdbcType=VARCHAR},
+      </if>
+      <if test="idnumber != null" >
+        #{idnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isenabled != null" >
+        #{isenabled,jdbcType=CHAR},
+      </if>
+      <if test="homeadres != null" >
+        #{homeadres,jdbcType=VARCHAR},
+      </if>
+      <if test="medicanum != null" >
+        #{medicanum,jdbcType=VARCHAR},
+      </if>
+      <if test="personalnum != null" >
+        #{personalnum,jdbcType=VARCHAR},
+      </if>
+      <if test="vocation != null" >
+        #{vocation,jdbcType=VARCHAR},
+      </if>
+      <if test="otherlink != null" >
+        #{otherlink,jdbcType=CHAR},
+      </if>
+      <if test="wedlock != null" >
+        #{wedlock,jdbcType=CHAR},
+      </if>
+      <if test="unitoraddress != null" >
+        #{unitoraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="pkUser != null" >
+        #{pkUser,jdbcType=CHAR},
+      </if>
+      <if test="responcomm != null" >
+        #{responcomm,jdbcType=CHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="pkArea != null" >
+        #{pkArea,jdbcType=CHAR},
+      </if>
+      <if test="areaname != null" >
+        #{areaname,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="pkHospatil != null" >
+        #{pkHospatil,jdbcType=CHAR},
+      </if>
+      <if test="hospital != null" >
+        #{hospital,jdbcType=CHAR},
+      </if>
+      <if test="telephone != null" >
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="linkphone != null" >
+        #{linkphone,jdbcType=VARCHAR},
+      </if>
+      <if test="birthdate != null" >
+        #{birthdate,jdbcType=CHAR},
+      </if>
+      <if test="filiation != null" >
+        #{filiation,jdbcType=VARCHAR},
+      </if>
+      <if test="accountproperty != null" >
+        #{accountproperty,jdbcType=VARCHAR},
+      </if>
+      <if test="residetype != null" >
+        #{residetype,jdbcType=VARCHAR},
+      </if>
+      <if test="oftentype != null" >
+        #{oftentype,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null" >
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="bloodtype != null" >
+        #{bloodtype,jdbcType=VARCHAR},
+      </if>
+      <if test="rhNegative != null" >
+        #{rhNegative,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="peoplenum != null" >
+        #{peoplenum,jdbcType=INTEGER},
+      </if>
+      <if test="paytype != null" >
+        #{paytype,jdbcType=VARCHAR},
+      </if>
+      <if test="peoplenum2 != null" >
+        #{peoplenum2,jdbcType=INTEGER},
+      </if>
+      <if test="anamnesis != null" >
+        #{anamnesis,jdbcType=VARCHAR},
+      </if>
+      <if test="allergies != null" >
+        #{allergies,jdbcType=VARCHAR},
+      </if>
+      <if test="waist != null" >
+        #{waist,jdbcType=VARCHAR},
+      </if>
+      <if test="whetherRegistration != null" >
+        #{whetherRegistration,jdbcType=CHAR},
+      </if>
+      <if test="residentcode != null" >
+        #{residentcode,jdbcType=VARCHAR},
+      </if>
+      <if test="residentnum != null" >
+        #{residentnum,jdbcType=VARCHAR},
+      </if>
+      <if test="fuwujgbh != null" >
+        #{fuwujgbh,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=CHAR},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=CHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="gxdz != null" >
+        #{gxdz,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=CHAR},
+      </if>
+      <if test="pkGxy != null" >
+        #{pkGxy,jdbcType=CHAR},
+      </if>
+      <if test="pkTnb != null" >
+        #{pkTnb,jdbcType=CHAR},
+      </if>
+      <if test="pkZl != null" >
+        #{pkZl,jdbcType=CHAR},
+      </if>
+      <if test="pkGxb != null" >
+        #{pkGxb,jdbcType=CHAR},
+      </if>
+      <if test="pkJsb != null" >
+        #{pkJsb,jdbcType=CHAR},
+      </if>
+      <if test="pkLnr != null" >
+        #{pkLnr,jdbcType=CHAR},
+      </if>
+      <if test="ybkh != null" >
+        #{ybkh,jdbcType=VARCHAR},
+      </if>
+      <if test="zh != null" >
+        #{zh,jdbcType=VARCHAR},
+      </if>
+      <if test="brlb != null" >
+        #{brlb,jdbcType=CHAR},
+      </if>
+      <if test="brxz != null" >
+        #{brxz,jdbcType=CHAR},
+      </if>
+      <if test="xb != null" >
+        #{xb,jdbcType=CHAR},
+      </if>
+      <if test="dwmc != null" >
+        #{dwmc,jdbcType=VARCHAR},
+      </if>
+      <if test="tsbbz != null" >
+        #{tsbbz,jdbcType=CHAR},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=VARCHAR},
+      </if>
+      <if test="updatecount != null" >
+        #{updatecount,jdbcType=INTEGER},
+      </if>
+      <if test="sfdz != null" >
+        #{sfdz,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.app.model.Resident" >
+    update resident
+    <set >
+      <if test="resname != null" >
+        resname = #{resname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=CHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null" >
+        height = #{height,jdbcType=DECIMAL},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="qrcode != null" >
+        qrcode = #{qrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null" >
+        phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="residenadres != null" >
+        residenadres = #{residenadres,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        sign = #{sign,jdbcType=CHAR},
+      </if>
+      <if test="pkDoctor != null" >
+        pk_doctor = #{pkDoctor,jdbcType=CHAR},
+      </if>
+      <if test="doctorname != null" >
+        doctorname = #{doctorname,jdbcType=VARCHAR},
+      </if>
+      <if test="face != null" >
+        face = #{face,jdbcType=VARCHAR},
+      </if>
+      <if test="idnumber != null" >
+        idnumber = #{idnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isenabled != null" >
+        isenabled = #{isenabled,jdbcType=CHAR},
+      </if>
+      <if test="homeadres != null" >
+        homeadres = #{homeadres,jdbcType=VARCHAR},
+      </if>
+      <if test="medicanum != null" >
+        medicanum = #{medicanum,jdbcType=VARCHAR},
+      </if>
+      <if test="personalnum != null" >
+        personalnum = #{personalnum,jdbcType=VARCHAR},
+      </if>
+      <if test="vocation != null" >
+        vocation = #{vocation,jdbcType=VARCHAR},
+      </if>
+      <if test="otherlink != null" >
+        otherlink = #{otherlink,jdbcType=CHAR},
+      </if>
+      <if test="wedlock != null" >
+        wedlock = #{wedlock,jdbcType=CHAR},
+      </if>
+      <if test="unitoraddress != null" >
+        unitoraddress = #{unitoraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="pkUser != null" >
+        pk_user = #{pkUser,jdbcType=CHAR},
+      </if>
+      <if test="responcomm != null" >
+        responcomm = #{responcomm,jdbcType=CHAR},
+      </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="pkArea != null" >
+        pk_area = #{pkArea,jdbcType=CHAR},
+      </if>
+      <if test="areaname != null" >
+        areaname = #{areaname,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="pkHospatil != null" >
+        pk_hospatil = #{pkHospatil,jdbcType=CHAR},
+      </if>
+      <if test="hospital != null" >
+        hospital = #{hospital,jdbcType=CHAR},
+      </if>
+      <if test="telephone != null" >
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="linkphone != null" >
+        linkphone = #{linkphone,jdbcType=VARCHAR},
+      </if>
+      <if test="birthdate != null" >
+        birthdate = #{birthdate,jdbcType=CHAR},
+      </if>
+      <if test="filiation != null" >
+        filiation = #{filiation,jdbcType=VARCHAR},
+      </if>
+      <if test="accountproperty != null" >
+        accountproperty = #{accountproperty,jdbcType=VARCHAR},
+      </if>
+      <if test="residetype != null" >
+        residetype = #{residetype,jdbcType=VARCHAR},
+      </if>
+      <if test="oftentype != null" >
+        oftentype = #{oftentype,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null" >
+        nation = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="bloodtype != null" >
+        bloodtype = #{bloodtype,jdbcType=VARCHAR},
+      </if>
+      <if test="rhNegative != null" >
+        rh_negative = #{rhNegative,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="peoplenum != null" >
+        peoplenum = #{peoplenum,jdbcType=INTEGER},
+      </if>
+      <if test="paytype != null" >
+        paytype = #{paytype,jdbcType=VARCHAR},
+      </if>
+      <if test="peoplenum2 != null" >
+        peoplenum2 = #{peoplenum2,jdbcType=INTEGER},
+      </if>
+      <if test="anamnesis != null" >
+        anamnesis = #{anamnesis,jdbcType=VARCHAR},
+      </if>
+      <if test="allergies != null" >
+        allergies = #{allergies,jdbcType=VARCHAR},
+      </if>
+      <if test="waist != null" >
+        waist = #{waist,jdbcType=VARCHAR},
+      </if>
+      <if test="whetherRegistration != null" >
+        whether_registration = #{whetherRegistration,jdbcType=CHAR},
+      </if>
+      <if test="residentcode != null" >
+        residentCode = #{residentcode,jdbcType=VARCHAR},
+      </if>
+      <if test="residentnum != null" >
+        residentNum = #{residentnum,jdbcType=VARCHAR},
+      </if>
+      <if test="fuwujgbh != null" >
+        fuwujgbh = #{fuwujgbh,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        start_date = #{startDate,jdbcType=CHAR},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=CHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="gxdz != null" >
+        gxdz = #{gxdz,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=CHAR},
+      </if>
+      <if test="pkGxy != null" >
+        pk_gxy = #{pkGxy,jdbcType=CHAR},
+      </if>
+      <if test="pkTnb != null" >
+        pk_tnb = #{pkTnb,jdbcType=CHAR},
+      </if>
+      <if test="pkZl != null" >
+        pk_zl = #{pkZl,jdbcType=CHAR},
+      </if>
+      <if test="pkGxb != null" >
+        pk_gxb = #{pkGxb,jdbcType=CHAR},
+      </if>
+      <if test="pkJsb != null" >
+        pk_jsb = #{pkJsb,jdbcType=CHAR},
+      </if>
+      <if test="pkLnr != null" >
+        pk_lnr = #{pkLnr,jdbcType=CHAR},
+      </if>
+      <if test="ybkh != null" >
+        ybkh = #{ybkh,jdbcType=VARCHAR},
+      </if>
+      <if test="zh != null" >
+        zh = #{zh,jdbcType=VARCHAR},
+      </if>
+      <if test="brlb != null" >
+        brlb = #{brlb,jdbcType=CHAR},
+      </if>
+      <if test="brxz != null" >
+        brxz = #{brxz,jdbcType=CHAR},
+      </if>
+      <if test="xb != null" >
+        xb = #{xb,jdbcType=CHAR},
+      </if>
+      <if test="dwmc != null" >
+        dwmc = #{dwmc,jdbcType=VARCHAR},
+      </if>
+      <if test="tsbbz != null" >
+        tsbbz = #{tsbbz,jdbcType=CHAR},
+      </if>
+      <if test="updatedate != null" >
+        updatedate = #{updatedate,jdbcType=VARCHAR},
+      </if>
+      <if test="updatecount != null" >
+        updatecount = #{updatecount,jdbcType=INTEGER},
+      </if>
+      <if test="sfdz != null" >
+        sfdz = #{sfdz,jdbcType=CHAR},
+      </if>
+    </set>
+    where pk_resident = #{pkResident,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.app.model.Resident" >
+    update resident
+    set resname = #{resname,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=CHAR},
+      age = #{age,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      height = #{height,jdbcType=DECIMAL},
+      weight = #{weight,jdbcType=DECIMAL},
+      qrcode = #{qrcode,jdbcType=VARCHAR},
+      phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      residenadres = #{residenadres,jdbcType=VARCHAR},
+      sign = #{sign,jdbcType=CHAR},
+      pk_doctor = #{pkDoctor,jdbcType=CHAR},
+      doctorname = #{doctorname,jdbcType=VARCHAR},
+      face = #{face,jdbcType=VARCHAR},
+      idnumber = #{idnumber,jdbcType=VARCHAR},
+      isenabled = #{isenabled,jdbcType=CHAR},
+      homeadres = #{homeadres,jdbcType=VARCHAR},
+      medicanum = #{medicanum,jdbcType=VARCHAR},
+      personalnum = #{personalnum,jdbcType=VARCHAR},
+      vocation = #{vocation,jdbcType=VARCHAR},
+      otherlink = #{otherlink,jdbcType=CHAR},
+      wedlock = #{wedlock,jdbcType=CHAR},
+      unitoraddress = #{unitoraddress,jdbcType=VARCHAR},
+      pk_user = #{pkUser,jdbcType=CHAR},
+      responcomm = #{responcomm,jdbcType=CHAR},
+      username = #{username,jdbcType=VARCHAR},
+      pk_area = #{pkArea,jdbcType=CHAR},
+      areaname = #{areaname,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      pk_hospatil = #{pkHospatil,jdbcType=CHAR},
+      hospital = #{hospital,jdbcType=CHAR},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      linkphone = #{linkphone,jdbcType=VARCHAR},
+      birthdate = #{birthdate,jdbcType=CHAR},
+      filiation = #{filiation,jdbcType=VARCHAR},
+      accountproperty = #{accountproperty,jdbcType=VARCHAR},
+      residetype = #{residetype,jdbcType=VARCHAR},
+      oftentype = #{oftentype,jdbcType=VARCHAR},
+      nation = #{nation,jdbcType=VARCHAR},
+      bloodtype = #{bloodtype,jdbcType=VARCHAR},
+      rh_negative = #{rhNegative,jdbcType=VARCHAR},
+      education = #{education,jdbcType=VARCHAR},
+      peoplenum = #{peoplenum,jdbcType=INTEGER},
+      paytype = #{paytype,jdbcType=VARCHAR},
+      peoplenum2 = #{peoplenum2,jdbcType=INTEGER},
+      anamnesis = #{anamnesis,jdbcType=VARCHAR},
+      allergies = #{allergies,jdbcType=VARCHAR},
+      waist = #{waist,jdbcType=VARCHAR},
+      whether_registration = #{whetherRegistration,jdbcType=CHAR},
+      residentCode = #{residentcode,jdbcType=VARCHAR},
+      residentNum = #{residentnum,jdbcType=VARCHAR},
+      fuwujgbh = #{fuwujgbh,jdbcType=VARCHAR},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      start_date = #{startDate,jdbcType=CHAR},
+      end_date = #{endDate,jdbcType=CHAR},
+      status = #{status,jdbcType=CHAR},
+      gxdz = #{gxdz,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=CHAR},
+      pk_gxy = #{pkGxy,jdbcType=CHAR},
+      pk_tnb = #{pkTnb,jdbcType=CHAR},
+      pk_zl = #{pkZl,jdbcType=CHAR},
+      pk_gxb = #{pkGxb,jdbcType=CHAR},
+      pk_jsb = #{pkJsb,jdbcType=CHAR},
+      pk_lnr = #{pkLnr,jdbcType=CHAR},
+      ybkh = #{ybkh,jdbcType=VARCHAR},
+      zh = #{zh,jdbcType=VARCHAR},
+      brlb = #{brlb,jdbcType=CHAR},
+      brxz = #{brxz,jdbcType=CHAR},
+      xb = #{xb,jdbcType=CHAR},
+      dwmc = #{dwmc,jdbcType=VARCHAR},
+      tsbbz = #{tsbbz,jdbcType=CHAR},
+      updatedate = #{updatedate,jdbcType=VARCHAR},
+      updatecount = #{updatecount,jdbcType=INTEGER},
+      sfdz = #{sfdz,jdbcType=CHAR}
+    where pk_resident = #{pkResident,jdbcType=CHAR}
+  </update>
+</mapper>

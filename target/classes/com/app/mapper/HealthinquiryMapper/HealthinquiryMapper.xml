@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.app.dao.heathMap.HealthinquiryMapper" >
+  <resultMap id="BaseResultMap" type="com.app.model.Healthinquiry" >
+    <id column="pk_health" property="pkHealth" jdbcType="CHAR" />
+    <result column="htitle" property="htitle" jdbcType="VARCHAR" />
+    <result column="htype" property="htype" jdbcType="CHAR" />
+    <result column="haddtime" property="haddtime" jdbcType="CHAR" />
+    <result column="himage" property="himage" jdbcType="VARCHAR" />
+    <result column="hreftype" property="hreftype" jdbcType="VARCHAR" />
+    <result column="hcontentshref" property="hcontentshref" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.app.model.Healthinquiry" extends="BaseResultMap" >
+    <result column="hcontents" property="hcontents" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    pk_health, htitle, htype, haddtime, himage, hreftype, hcontentshref
+  </sql>
+  <sql id="Blob_Column_List" >
+    hcontents
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from healthinquiry
+    where pk_health = #{pkHealth,jdbcType=CHAR}
+  </select>
+  <select id="selectHealthByUserName" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from healthinquiry
+    
+            limit #{start},#{end}  
+  </select>
+  
+  <select id="selectHealthByUserNamefilter" resultMap="ResultMapWithBLOBs" parameterType="com.app.util.PageUtil" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from healthinquiry
+    <where>  
+            <if test="queryObj.htitle != null and queryObj.htitle != ''">
+                AND htitle = #{queryObj.htitle}
+            </if>              
+        </where>  
+            
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from healthinquiry
+    where pk_health = #{pkHealth,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.app.model.Healthinquiry" >
+    insert into healthinquiry (pk_health, htitle, htype, 
+      haddtime, himage, hreftype, 
+      hcontentshref, hcontents)
+    values (#{pkHealth,jdbcType=CHAR}, #{htitle,jdbcType=VARCHAR}, #{htype,jdbcType=CHAR}, 
+      #{haddtime,jdbcType=CHAR}, #{himage,jdbcType=VARCHAR}, #{hreftype,jdbcType=VARCHAR}, 
+      #{hcontentshref,jdbcType=VARCHAR}, #{hcontents,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.app.model.Healthinquiry" >
+    insert into healthinquiry
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkHealth != null" >
+        pk_health,
+      </if>
+      <if test="htitle != null" >
+        htitle,
+      </if>
+      <if test="htype != null" >
+        htype,
+      </if>
+      <if test="haddtime != null" >
+        haddtime,
+      </if>
+      <if test="himage != null" >
+        himage,
+      </if>
+      <if test="hreftype != null" >
+        hreftype,
+      </if>
+      <if test="hcontentshref != null" >
+        hcontentshref,
+      </if>
+      <if test="hcontents != null" >
+        hcontents,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkHealth != null" >
+        #{pkHealth,jdbcType=CHAR},
+      </if>
+      <if test="htitle != null" >
+        #{htitle,jdbcType=VARCHAR},
+      </if>
+      <if test="htype != null" >
+        #{htype,jdbcType=CHAR},
+      </if>
+      <if test="haddtime != null" >
+        #{haddtime,jdbcType=CHAR},
+      </if>
+      <if test="himage != null" >
+        #{himage,jdbcType=VARCHAR},
+      </if>
+      <if test="hreftype != null" >
+        #{hreftype,jdbcType=VARCHAR},
+      </if>
+      <if test="hcontentshref != null" >
+        #{hcontentshref,jdbcType=VARCHAR},
+      </if>
+      <if test="hcontents != null" >
+        #{hcontents,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.app.model.Healthinquiry" >
+    update healthinquiry
+    <set >
+      <if test="htitle != null" >
+        htitle = #{htitle,jdbcType=VARCHAR},
+      </if>
+      <if test="htype != null" >
+        htype = #{htype,jdbcType=CHAR},
+      </if>
+      <if test="haddtime != null" >
+        haddtime = #{haddtime,jdbcType=CHAR},
+      </if>
+      <if test="himage != null" >
+        himage = #{himage,jdbcType=VARCHAR},
+      </if>
+      <if test="hreftype != null" >
+        hreftype = #{hreftype,jdbcType=VARCHAR},
+      </if>
+      <if test="hcontentshref != null" >
+        hcontentshref = #{hcontentshref,jdbcType=VARCHAR},
+      </if>
+      <if test="hcontents != null" >
+        hcontents = #{hcontents,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where pk_health = #{pkHealth,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.app.model.Healthinquiry" >
+    update healthinquiry
+    set htitle = #{htitle,jdbcType=VARCHAR},
+      htype = #{htype,jdbcType=CHAR},
+      haddtime = #{haddtime,jdbcType=CHAR},
+      himage = #{himage,jdbcType=VARCHAR},
+      hreftype = #{hreftype,jdbcType=VARCHAR},
+      hcontentshref = #{hcontentshref,jdbcType=VARCHAR},
+      hcontents = #{hcontents,jdbcType=LONGVARCHAR}
+    where pk_health = #{pkHealth,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.app.model.Healthinquiry" >
+    update healthinquiry
+    set htitle = #{htitle,jdbcType=VARCHAR},
+      htype = #{htype,jdbcType=CHAR},
+      haddtime = #{haddtime,jdbcType=CHAR},
+      himage = #{himage,jdbcType=VARCHAR},
+      hreftype = #{hreftype,jdbcType=VARCHAR},
+      hcontentshref = #{hcontentshref,jdbcType=VARCHAR}
+    where pk_health = #{pkHealth,jdbcType=CHAR}
+  </update>
+</mapper>

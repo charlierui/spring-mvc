@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.app.dao.tdictype.TDictypeMapper">
+<!-- redis 自动缓存 -->
+<!--  <cache eviction="LRU" type="com.app.redis.RedisCache" />-->
+	<resultMap id="BaseResultMap" type="com.app.model.TDictype">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="bak" property="bak" jdbcType="VARCHAR" />
+		<result column="sortnum" property="sortnum" jdbcType="INTEGER" />
+		<result column="text" property="text" jdbcType="VARCHAR" />
+		<result column="value" property="value" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="combox" type="com.app.dto.TDictypeDto">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+
+		<result column="text" property="text" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, bak, sortnum, text, value
+	</sql>
+	
+	<select id="ditcombox" resultMap="combox">	
+	select b.id,b.text from t_dictype a,t_dicvalue b where a.id=b.tid and b.status = '1' and a.value=#{typeValue}
+	</select>
+	
+	
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_dictype
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_dictype
+
+	</select>
+
+	<select id="selectCountByValue" resultType="int" parameterType="java.lang.String">
+		select
+		count(id)
+		from t_dictype
+		where value=#{value,jdbcType=VARCHAR}
+	</select>
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from t_dictype
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.app.model.TDictype">
+		insert into t_dictype (id, bak, sortnum,
+		text, value)
+		values (#{id,jdbcType=BIGINT}, #{bak,jdbcType=VARCHAR},
+		#{sortnum,jdbcType=INTEGER},
+		#{text,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.app.model.TDictype">
+		insert into t_dictype
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="bak != null">
+				bak,
+			</if>
+			<if test="sortnum != null">
+				sortnum,
+			</if>
+			<if test="text != null">
+				text,
+			</if>
+			<if test="value != null">
+				value,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="bak != null">
+				#{bak,jdbcType=VARCHAR},
+			</if>
+			<if test="sortnum != null">
+				#{sortnum,jdbcType=INTEGER},
+			</if>
+			<if test="text != null">
+				#{text,jdbcType=VARCHAR},
+			</if>
+			<if test="value != null">
+				#{value,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.app.model.TDictype">
+		update t_dictype
+		<set>
+			<if test="bak != null">
+				bak = #{bak,jdbcType=VARCHAR},
+			</if>
+			<if test="sortnum != null">
+				sortnum = #{sortnum,jdbcType=INTEGER},
+			</if>
+			<if test="text != null">
+				text = #{text,jdbcType=VARCHAR},
+			</if>
+			<if test="value != null">
+				value = #{value,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.app.model.TDictype">
+		update t_dictype
+		set bak = #{bak,jdbcType=VARCHAR},
+		sortnum = #{sortnum,jdbcType=INTEGER},
+		text = #{text,jdbcType=VARCHAR},
+		value = #{value,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>

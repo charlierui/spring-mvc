@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.app.dao.tuser.TUserMapper">
+<!-- redis 自动缓存 -->
+<!--  <cache eviction="LRU" type="com.app.redis.RedisCache" />-->
+	<resultMap id="BaseResultMap" type="com.app.model.TUser">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="deptId" property="deptid" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="navIds" property="navids" jdbcType="VARCHAR" />
+		<result column="psw" property="psw" jdbcType="VARCHAR" />
+		<result column="stationId" property="stationid" jdbcType="BIGINT" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="userName" property="username" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, deptId, name, navIds, psw, stationId, status, userName
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<select id="selectCountByUsername" resultType="int"
+		parameterType="java.lang.String">
+		select
+		count(1)
+		from t_user
+		where username =
+		#{username,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectByLogin" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		where username = #{username,jdbcType=VARCHAR}
+	</select>
+	<!-- 使用resultMap映射实体类和字段之间的一一对应关系 -->
+	<resultMap type="com.app.dto.TuserDto" id="ClassResultMap">
+		<result column="id" property="id" jdbcType="BIGINT" />
+		<result column="deptId" property="deptid" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="userName" property="username" jdbcType="VARCHAR" />
+		<result column="stationname" property="stationname" jdbcType="VARCHAR" />
+		<result column="navIds" property="navids" jdbcType="VARCHAR" />	
+		<result column="dname" property="dname" jdbcType="VARCHAR" />
+
+	</resultMap>
+	<select id="selectListTuser" resultMap="ClassResultMap"
+		parameterType="com.app.util.PageUtil">
+		select
+		a.id,a.userName,a.status,a.name,b.dname,c.stationname,a.deptid
+		from
+		t_user a left join t_department b on a.deptid = b.id left join
+		t_stations c on a.stationId = c.id
+		<where>  
+             <if test="query.username != null and query.username != ''">
+                AND a.username like '%${query.username}%'
+            </if>    
+            <if test="query.name != null and query.name != ''">
+                AND a.name like '%${query.name}%'
+            </if>  
+            <if test="query.status != null and query.status != ''">
+                AND a.status = #{query.status}
+            </if> 
+            <if test="query.deptid != null and query.deptid != ''">
+                AND a.deptid = #{query.deptid}
+            </if>  
+              <if test="query.stationid != null and query.stationid != ''">
+                AND a.stationid = #{query.stationid}
+            </if>            
+         </where>  
+
+	</select>
+<select id="selectAll" resultMap="ClassResultMap"  parameterType="map">
+		select
+		a.id,a.userName,a.status,a.name,b.dname,a.navids
+		from
+		t_user a left join t_department b on a.deptid = b.id left join
+		t_stations c on a.stationId = c.id
+		where 1 = 1 
+			<if test="deptid != null and deptid !=''">
+			 and a.deptid=#{deptid}
+			</if>
+		<if test="name != null and name !=''">
+			 and a.name like '${name}%'
+			</if>
+		
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from t_user
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.app.model.TUser">
+		insert into t_user (id,
+		deptId, name,
+		navIds, psw, stationId,
+		status, userName)
+		values
+		(#{id,jdbcType=BIGINT}, #{deptid,jdbcType=BIGINT},
+		#{name,jdbcType=VARCHAR},
+		#{navids,jdbcType=VARCHAR},
+		#{psw,jdbcType=VARCHAR}, #{stationid,jdbcType=BIGINT},
+		#{status,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.app.model.TUser">
+		insert into t_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="deptid != null">
+				deptId,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="navids != null">
+				navIds,
+			</if>
+			<if test="psw != null">
+				psw,
+			</if>
+			<if test="stationid != null">
+				stationId,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="username != null">
+				userName,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="deptid != null">
+				#{deptid,jdbcType=BIGINT},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="navids != null">
+				#{navids,jdbcType=VARCHAR},
+			</if>
+			<if test="psw != null">
+				#{psw,jdbcType=VARCHAR},
+			</if>
+			<if test="stationid != null">
+				#{stationid,jdbcType=BIGINT},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="username != null">
+				#{username,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.app.model.TUser">
+		update t_user
+		<set>
+			<if test="deptid != null">
+				deptId = #{deptid,jdbcType=BIGINT},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="navids != null">
+				navIds = #{navids,jdbcType=VARCHAR},
+			</if>
+			<if test="psw != null">
+				psw = #{psw,jdbcType=VARCHAR},
+			</if>
+			<if test="stationid != null">
+				stationId = #{stationid,jdbcType=BIGINT},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="username != null">
+				userName = #{username,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.app.model.TUser">
+		update t_user
+		set
+		deptId = #{deptid,jdbcType=BIGINT},
+		name = #{name,jdbcType=VARCHAR},
+		navIds = #{navids,jdbcType=VARCHAR},
+		psw = #{psw,jdbcType=VARCHAR},
+		stationId = #{stationid,jdbcType=BIGINT},
+		status =
+		#{status,jdbcType=INTEGER},
+		userName = #{username,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>

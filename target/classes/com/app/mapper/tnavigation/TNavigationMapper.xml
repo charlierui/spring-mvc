@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.app.dao.tnavigation.TNavigationMapper">
+<!-- redis 自动缓存 -->
+<!--  <cache eviction="LRU" type="com.app.redis.RedisCache" />-->
+	<resultMap id="BaseResultMap" type="com.app.model.TNavigation">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="iconCls" property="iconcls" jdbcType="VARCHAR" />
+		<result column="parentId" property="parentid" jdbcType="BIGINT" />
+		<result column="sortNum" property="sortnum" jdbcType="INTEGER" />
+		<result column="text" property="text" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, iconCls, parentId, sortNum, text, url
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_navigation
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+
+<select id="selectAllByTNavigation" resultType="int" parameterType="com.app.model.TNavigation">
+		select
+		count(*)
+		from t_navigation
+		<where>
+		<if test="id !=null and id != ''">
+			id=#{id}
+		</if>
+		<if test="parentid !=null and parentid != ''">
+			parentid=#{parentid}
+		</if>
+		<if test="parentid !=null and parentid != ''">
+			parentid=#{parentid}
+		</if>
+		<if test="url !=null and url != ''">
+			url like '%${url}'
+		</if>
+		</where>
+	</select>
+
+
+	<select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_navigation
+		where parentId = #{id,jdbcType=BIGINT}
+	</select>
+<select id="selectListTNavigation" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_navigation
+		where parentId = #{id,jdbcType=BIGINT}
+	</select>
+
+	<select id="selectNavigation" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+
+		select
+		<include refid="Base_Column_List" />
+		from t_navigation where id in
+		<foreach item="navids" index="index" collection="list" open="("
+			separator="," close=")">
+			#{navids}
+		</foreach>
+		and parentId=0 order by SORTNUM
+
+	</select>
+
+	<select id="selectNavigation2" resultMap="BaseResultMap">
+
+		select
+		<include refid="Base_Column_List" />
+		from t_navigation
+		<where>
+
+			<if test="navIdsList!=null and navIdsList.size()>0">
+				id in
+				<foreach item="navIdsList" index="index" collection="navIdsList"
+					open="(" separator="," close=")">
+					#{navIdsList}
+				</foreach>
+			</if>
+			<if test="pantent!=null and pantent!=''">
+
+				and parentId=#{pantent}
+			</if>
+		</where>
+		order by SORTNUM
+	</select>
+
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		t_navigation
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.app.model.TNavigation">
+		insert into t_navigation (id,
+		iconCls, parentId,
+		sortNum, text, url)
+		values (#{id,jdbcType=BIGINT},
+		#{iconcls,jdbcType=VARCHAR},
+		#{parentid,jdbcType=BIGINT},
+		#{sortnum,jdbcType=INTEGER}, #{text,jdbcType=VARCHAR},
+		#{url,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.app.model.TNavigation">
+		insert into t_navigation
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="iconcls != null">
+				iconCls,
+			</if>
+			<if test="parentid != null">
+				parentId,
+			</if>
+			<if test="sortnum != null">
+				sortNum,
+			</if>
+			<if test="text != null">
+				text,
+			</if>
+			<if test="url != null">
+				url,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="iconcls != null">
+				#{iconcls,jdbcType=VARCHAR},
+			</if>
+			<if test="parentid != null">
+				#{parentid,jdbcType=BIGINT},
+			</if>
+			<if test="sortnum != null">
+				#{sortnum,jdbcType=INTEGER},
+			</if>
+			<if test="text != null">
+				#{text,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				#{url,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.app.model.TNavigation">
+		update t_navigation
+		<set>
+			<if test="iconcls != null">
+				iconCls = #{iconcls,jdbcType=VARCHAR},
+			</if>
+			<if test="parentid != null">
+				parentId = #{parentid,jdbcType=BIGINT},
+			</if>
+			<if test="sortnum != null">
+				sortNum = #{sortnum,jdbcType=INTEGER},
+			</if>
+			<if test="text != null">
+				text = #{text,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				url = #{url,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.app.model.TNavigation">
+		update
+		t_navigation
+		set iconCls = #{iconcls,jdbcType=VARCHAR},
+		parentId =
+		#{parentid,jdbcType=BIGINT},
+		sortNum = #{sortnum,jdbcType=INTEGER},
+		text = #{text,jdbcType=VARCHAR},
+		url = #{url,jdbcType=VARCHAR}
+		where id
+		= #{id,jdbcType=BIGINT}
+	</update>
+</mapper>

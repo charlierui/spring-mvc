@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.app.dao.tdicvalue.TDicvalueMapper">
+<!-- redis 自动缓存 -->
+<!--  <cache eviction="LRU" type="com.app.redis.RedisCache" />-->
+	<resultMap id="BaseResultMap" type="com.app.model.TDicvalue">
+		<id column="vid" property="vid" jdbcType="BIGINT" />
+		<result column="bak" property="bak" jdbcType="VARCHAR" />
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="softcode" property="softcode" jdbcType="VARCHAR" />
+		<result column="sortnum" property="sortnum" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="text" property="text" jdbcType="VARCHAR" />
+		<result column="tid" property="tid" jdbcType="BIGINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		vid, bak, id, softcode, sortnum, status, text, tid
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_dicvalue
+		where vid = #{vid,jdbcType=BIGINT}
+	</select>
+
+
+	<select id="selectByTid" resultMap="BaseResultMap"
+		parameterType="com.app.util.PageUtil">
+		select
+		<include refid="Base_Column_List" />
+		from t_dicvalue
+		<where>
+			<if test="query.tid != null and query.tid != ''">
+				AND tid =#{query.tid}
+			</if>
+			<if test="query.softcode != null and query.softcode != ''">
+				AND softcode =#{query.softcode}
+			</if>
+			<if test="query.text != null and query.text != ''">
+				AND text =#{query.text}
+			</if>
+			<if test="query.status!=null and query.status !=2">
+				AND status =#{query.status,jdbcType=INTEGER}
+			</if>
+		</where>
+	</select>
+	<select id="selectByTid1" resultType="int"
+		parameterType="map">
+		select
+		count(1)
+		from t_dicvalue
+		where 1=1
+			<if test="tid != null and tid != ''">
+				AND tid =#{tid}
+			</if>
+	</select>
+
+	<select id="selectById" resultType="int" parameterType="com.app.model.TDicvalue">
+		select
+		count(1)
+		from t_dicvalue
+		where id = #{id} and tid=#{tid}
+	</select>
+	
+	<select id="selectBySoftcode" resultType="int" parameterType="com.app.model.TDicvalue">
+		select
+		count(1)
+		from t_dicvalue
+		where softcode = #{softcode}  and tid=#{tid}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from t_dicvalue
+		where vid = #{vid,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.app.model.TDicvalue">
+		insert into t_dicvalue (vid, bak, id,
+		softcode, sortnum, status,
+		text, tid)
+		values (#{vid,jdbcType=BIGINT}, #{bak,jdbcType=VARCHAR},
+		#{id,jdbcType=VARCHAR},
+		#{softcode,jdbcType=VARCHAR}, #{sortnum,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
+		#{text,jdbcType=VARCHAR}, #{tid,jdbcType=BIGINT})
+	</insert>
+	<insert id="insertSelective" parameterType="com.app.model.TDicvalue">
+		insert into t_dicvalue
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="vid != null">
+				vid,
+			</if>
+			<if test="bak != null">
+				bak,
+			</if>
+			<if test="id != null">
+				id,
+			</if>
+			<if test="softcode != null">
+				softcode,
+			</if>
+			<if test="sortnum != null">
+				sortnum,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="text != null">
+				text,
+			</if>
+			<if test="tid != null">
+				tid,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="vid != null">
+				#{vid,jdbcType=BIGINT},
+			</if>
+			<if test="bak != null">
+				#{bak,jdbcType=VARCHAR},
+			</if>
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="softcode != null">
+				#{softcode,jdbcType=VARCHAR},
+			</if>
+			<if test="sortnum != null">
+				#{sortnum,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="text != null">
+				#{text,jdbcType=VARCHAR},
+			</if>
+			<if test="tid != null">
+				#{tid,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.app.model.TDicvalue">
+		update t_dicvalue
+		<set>
+			<if test="bak != null">
+				bak = #{bak,jdbcType=VARCHAR},
+			</if>
+			<if test="id != null">
+				id = #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="softcode != null">
+				softcode = #{softcode,jdbcType=VARCHAR},
+			</if>
+			<if test="sortnum != null">
+				sortnum = #{sortnum,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="text != null">
+				text = #{text,jdbcType=VARCHAR},
+			</if>
+			<if test="tid != null">
+				tid = #{tid,jdbcType=BIGINT},
+			</if>
+		</set>
+		where vid = #{vid,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.app.model.TDicvalue">
+		update t_dicvalue
+		set bak = #{bak,jdbcType=VARCHAR},
+		id = #{id,jdbcType=VARCHAR},
+		softcode = #{softcode,jdbcType=VARCHAR},
+		sortnum = #{sortnum,jdbcType=INTEGER},
+		status = #{status,jdbcType=INTEGER},
+		text = #{text,jdbcType=VARCHAR},
+		tid = #{tid,jdbcType=BIGINT}
+		where vid = #{vid,jdbcType=BIGINT}
+	</update>
+</mapper>

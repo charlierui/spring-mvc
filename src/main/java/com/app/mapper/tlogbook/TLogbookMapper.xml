@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.app.dao.tlogbook.TLogbookMapper" >
+<!-- redis 自动缓存 -->
+<!--  <cache eviction="LRU" type="com.app.redis.RedisCache" />-->
+  <resultMap id="BaseResultMap" type="com.app.model.TLogbook" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="ldate" property="ldate" jdbcType="TIMESTAMP" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="mark" property="mark" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="requestUri" property="requesturi" jdbcType="VARCHAR" />
+    <result column="userName" property="username" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, ldate, description, ip, mark, name, requestUri, userName
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_logbook
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  
+  <select id="selectListTlog" resultMap="BaseResultMap" parameterType="com.app.util.PageUtil">
+    select 
+    <include refid="Base_Column_List" />
+    from t_logbook
+    <where>
+   	 <if test="query.username != null and query.username != ''">
+                AND username = #{query.username}
+     </if>  
+     <if test="query.fromDateSch != null and query.fromDateSch != ''">
+                <!--  AND ldate >= CONCAT(#{query.fromDateSch },' 00:00:00') -->
+                AND ldate >= #{query.fromDateSch }
+     </if>  
+     <if test="query.toDateSch != null and query.toDateSch != ''">
+                <!-- AND ldate &lt;=CONCAT(#{query.toDateSch },' 23:59:59') -->
+                AND ldate &lt;=#{query.toDateSch }
+     </if>  
+   
+   </where>
+   order by ldate desc
+  </select>
+  
+  
+  <delete id="deletelogbook">
+    delete from t_logbook
+    
+  </delete>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_logbook
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.app.model.TLogbook" >
+    insert into t_logbook (id, ldate, description, 
+      ip, mark, name, requestUri, 
+      userName)
+    values (#{id,jdbcType=BIGINT}, #{ldate,jdbcType=TIMESTAMP}, #{description,jdbcType=VARCHAR}, 
+      #{ip,jdbcType=VARCHAR}, #{mark,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{requesturi,jdbcType=VARCHAR}, 
+      #{username,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.app.model.TLogbook" >
+    insert into t_logbook
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ldate != null" >
+        ldate,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="ip != null" >
+        ip,
+      </if>
+      <if test="mark != null" >
+        mark,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="requesturi != null" >
+        requestUri,
+      </if>
+      <if test="username != null" >
+        userName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="ldate != null" >
+        #{ldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="mark != null" >
+        #{mark,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="requesturi != null" >
+        #{requesturi,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.app.model.TLogbook" >
+    update t_logbook
+    <set >
+      <if test="ldate != null" >
+        ldate = #{ldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="mark != null" >
+        mark = #{mark,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="requesturi != null" >
+        requestUri = #{requesturi,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        userName = #{username,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.app.model.TLogbook" >
+    update t_logbook
+    set ldate = #{ldate,jdbcType=TIMESTAMP},
+      description = #{description,jdbcType=VARCHAR},
+      ip = #{ip,jdbcType=VARCHAR},
+      mark = #{mark,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      requestUri = #{requesturi,jdbcType=VARCHAR},
+      userName = #{username,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
