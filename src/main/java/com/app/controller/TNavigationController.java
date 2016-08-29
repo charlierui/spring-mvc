@@ -173,12 +173,11 @@ public class TNavigationController extends BaseController {
 	@RequestMapping(value = "initNav")
 	@SystemControllerLog(description = "用户权限查询")
 	@ResponseBody
-	public void navigation(HttpServletResponse response) {
+	public void navigation(HttpServletRequest request,HttpServletResponse response) {
 		List navs = new ArrayList();
 		String navids=null;		
-//		byte[] person = this.get(("user").getBytes());		
-//		TUser redisuser = (TUser) SerializeUtil.unserialize(person);
-		TUser redisuser =this.getWebUserAttribute("user");
+		TUser redisuser = (TUser) SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
+		//TUser redisuser =this.getWebUserAttribute("user");
 		if (redisuser != null) {
 			 navids=redisuser.getNavids();		
 		}
@@ -193,7 +192,7 @@ public class TNavigationController extends BaseController {
 			String niconCls=tnv.getIconcls()==null?"":tnv.getIconcls();
 			long nparentId=tnv.getParentid();
 			Navigation2 n2=new Navigation2(nid, ntext, nurl, nsortNum,niconCls, nparentId);
-			addChild(n2);
+			addChild(request,n2);
 			navs.add(n2);
 			
 		}
@@ -205,11 +204,11 @@ public class TNavigationController extends BaseController {
 	 * @param Navigation2实体类
 	 * return null
 	 * */
-	private void  addChild(Navigation2 n){
+	private void  addChild(HttpServletRequest request,Navigation2 n){
 		String navids=null;		
-//		byte[] person = this.get(("user").getBytes());		
-//		TUser redisuser = (TUser) SerializeUtil.unserialize(person);
-		TUser redisuser = this.getWebUserAttribute("user");
+		TUser redisuser = (TUser) SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
+
+		//TUser redisuser = this.getWebUserAttribute("user");
 		if (redisuser != null) {
 			 navids=redisuser.getNavids();		
 		}
@@ -229,7 +228,7 @@ public class TNavigationController extends BaseController {
 				String niconCls=tnv.getIconcls()==null?"":tnv.getIconcls();
 				long nparentId=tnv.getParentid();			
 				Navigation2 n2=new Navigation2(nid, ntext, nurl, nsortNum,niconCls, nparentId);
-				addChild(n2);
+				addChild(request,n2);
 				n.getChildren().add(n2);
 			}
 		}

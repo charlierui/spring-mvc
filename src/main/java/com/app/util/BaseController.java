@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.TreeSet;
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,6 +26,7 @@ import com.app.redis.SerializeUtil;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPool;
+
 /**
  * 
  * @author arui
@@ -119,23 +121,26 @@ public class BaseController {
 	 * @param key
 	 * @return
 	 */
-	public byte[] get(String key,String key1) {
-		boolean res = checkexists((key+key1).getBytes());
+	public byte[] get(String key, String key1) {
+		boolean res = checkexists((key + key1).getBytes());
 		if (res == true) {
-			logger.info((key+key1).getBytes()+" 命中集群缓存：" + (key+key1).getBytes());
+			logger.info((key + key1).getBytes() + " 命中集群缓存：" + (key + key1).getBytes());
 		}
-		return jedisCluster.get((key+key1).getBytes());
+		return jedisCluster.get((key + key1).getBytes());
 
 	}
+
 	public byte[] get(byte[] key) {
 		boolean res = checkexists(key);
 		if (res == true) {
-			logger.info((key+" 命中集群缓存："+SerializeUtil.unserialize(jedisCluster.get(key))));
+			logger.info((key + " 命中集群缓存：" + SerializeUtil.unserialize(jedisCluster.get(key))));
+			return jedisCluster.get(key);
+		} else {
+			return null;
 		}
-		return jedisCluster.get(key);
 
 	}
-	
+
 	/**
 	 * redis 根据String 获取 缓存内容
 	 * 
@@ -183,84 +188,95 @@ public class BaseController {
 	}
 
 	public boolean checkexists(byte[] key) {
-		return jedisCluster.exists(key);
+		if (key != null) {
+			return jedisCluster.exists(key);
+		} else {
+			return false;
+		}
 	}
-	/**  
-     * 设置key的过期时间  
-     *   
-     * @param key  
-     * @param second  
-     * @return  
-     */  
-    public Long ttl(String key) {  
-        return jedisCluster.ttl(key);  
-    }  
-    /**  
-     * 判断key是否过期  
-     *   
-     * @param key  
-     * @return  
-     */  
-    public Long hdel(String key, String item) {  
-         return jedisCluster.hdel(key, item);  
-    }  
-    /**  
-     * 设置hash数据类型  
-     *   
-     * @param key  
-     * @param item  
-     * @param value  
-     * @return  
-     */  
-    public Long hset(String key, String item, String value) {  
-        return jedisCluster.hset(key, item, value);  
-    }  
-      
-    /**  
-     * 获取hash数据类型  
-     *   
-     * @param key  
-     * @param item  
-     * @return  
-     */  
-    public String hget(String key, String item) {  
-        return jedisCluster.hget(key, item);  
-    }  
-      
-    /**  
-     * 删除hash数据  
-     * @param key  
-     * @param item  
-     * @return  
-     */  
-    public Long incr(String key) {  
-        return jedisCluster.incr(key);  
-    }  
-    /**
-     * 获取所有的key
-     * @param pattern
-     * @return
-     */
-    public TreeSet<String> keys(String pattern){  
-        logger.debug("Start getting keys...");  
-        TreeSet<String> keys = new TreeSet<>();  
-        Map<String, JedisPool> clusterNodes = jedisCluster.getClusterNodes();  
-        for(String k : clusterNodes.keySet()){  
-            logger.debug("Getting keys from: {}", k);  
-            JedisPool jp = clusterNodes.get(k);  
-            Jedis connection = jp.getResource();  
-            try {  
-                keys.addAll(connection.keys(pattern));  
-            } catch(Exception e){  
-                logger.error("Getting keys error: {}", e);  
-            } finally{  
-                logger.debug("Connection closed.");  
-                connection.close();//用完一定要close这个链接！！！  
-            }  
-        }  
-        logger.debug("Keys gotten!");  
-        return keys;  
-    }  
+
+	/**
+	 * 设置key的过期时间
+	 * 
+	 * @param key
+	 * @param second
+	 * @return
+	 */
+	public Long ttl(String key) {
+		return jedisCluster.ttl(key);
+	}
+
+	/**
+	 * 判断key是否过期
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public Long hdel(String key, String item) {
+		return jedisCluster.hdel(key, item);
+	}
+
+	/**
+	 * 设置hash数据类型
+	 * 
+	 * @param key
+	 * @param item
+	 * @param value
+	 * @return
+	 */
+	public Long hset(String key, String item, String value) {
+		return jedisCluster.hset(key, item, value);
+	}
+
+	/**
+	 * 获取hash数据类型
+	 * 
+	 * @param key
+	 * @param item
+	 * @return
+	 */
+	public String hget(String key, String item) {
+		return jedisCluster.hget(key, item);
+	}
+
+	/**
+	 * 删除hash数据
+	 * 
+	 * @param key
+	 * @param item
+	 * @return
+	 */
+	public Long incr(String key) {
+		return jedisCluster.incr(key);
+	}
+
+	/**
+	 * 获取所有的key
+	 * 
+	 * @param pattern
+	 * @return
+	 */
+	public TreeSet<String> keys(String pattern) {
+		logger.debug("Start getting keys...");
+		TreeSet<String> keys = new TreeSet<>();
+		Map<String, JedisPool> clusterNodes = jedisCluster.getClusterNodes();
+		for (String k : clusterNodes.keySet()) {
+			logger.debug("Getting keys from: {}", k);
+			JedisPool jp = clusterNodes.get(k);
+			Jedis connection = jp.getResource();
+			try {
+				keys.addAll(connection.keys(pattern));
+			} catch (Exception e) {
+				logger.error("Getting keys error: {}", e);
+			} finally {
+				logger.debug("Connection closed.");
+				connection.close();// 用完一定要close这个链接！！！
+			}
+		}
+		logger.debug("Keys gotten!");
+		return keys;
+	}
+
 	/**
 	 * 分页
 	 * 
@@ -268,8 +284,12 @@ public class BaseController {
 	 * @return
 	 */
 	protected int row(HttpServletRequest request) {
-
-		return Integer.parseInt(request.getParameter("rows"));
+		String rows = request.getParameter("rows");
+		if (StringUtils.isNotEmpty(rows)) {
+			return Integer.parseInt(rows);
+		} else {
+			return 1;
+		}
 	}
 
 	/**
@@ -379,40 +399,58 @@ public class BaseController {
 		}
 
 	}
+
+	public String findcookie(HttpServletRequest request) {
+		String name = "";
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			for (int i = 0; i < cookies.length; i++) {
+				if (cookies[i].getName().equals("liangyicookie")) {
+					name = cookies[i].getValue();
+				}
+
+			}
+		}
+		return name;
+
+	}
+
 	/**
 	 * 文件保存
+	 * 
 	 * @param request
 	 * @param file
-	 * @param foldername 要保存的文件夹名称
+	 * @param foldername
+	 *            要保存的文件夹名称
 	 * @return
 	 */
-    public static String saveFile(HttpServletRequest request, MultipartFile file,String foldername) {  
-    	String fileName = "";
+	public static String saveFile(HttpServletRequest request, MultipartFile file, String foldername) {
+		String fileName = "";
 		String logImageName = "";
-        // 判断文件是否为空  
-        if (!file.isEmpty()) {  
-            try {             	
-                // 文件保存路径  
-                String filePath = request.getSession().getServletContext().getRealPath("/") + foldername+"/";
-                String _fileName = file.getOriginalFilename();
-    			String suffix = _fileName.substring(_fileName.lastIndexOf("."));
-    			// /**使用UUID生成文件名称**/
-    			logImageName = UUID.randomUUID().toString() + suffix;
-    			fileName = filePath + File.separator + logImageName;
-    			File restore = new File(filePath);
-    			//验证路径是否存在，不存在则创建
-    			if (!restore.exists()) {
-    				restore.mkdirs();
-    			}
-    			try {
-    				file.transferTo(new File(fileName));
-    			} catch (Exception e) {
-    				throw new RuntimeException(e);
-    			}
-            } catch (Exception e) {  
-                e.printStackTrace();  
-            }  
-        }  
-        return fileName;  
-    }  
+		// 判断文件是否为空
+		if (!file.isEmpty()) {
+			try {
+				// 文件保存路径
+				String filePath = request.getSession().getServletContext().getRealPath("/") + foldername + "/";
+				String _fileName = file.getOriginalFilename();
+				String suffix = _fileName.substring(_fileName.lastIndexOf("."));
+				// /**使用UUID生成文件名称**/
+				logImageName = UUID.randomUUID().toString() + suffix;
+				fileName = filePath + File.separator + logImageName;
+				File restore = new File(filePath);
+				// 验证路径是否存在，不存在则创建
+				if (!restore.exists()) {
+					restore.mkdirs();
+				}
+				try {
+					file.transferTo(new File(fileName));
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return fileName;
+	}
 }

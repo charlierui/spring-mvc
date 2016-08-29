@@ -29,7 +29,7 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
 	private final Logger log = LoggerFactory.getLogger(CommonInterceptor.class);
 	@Autowired
 	JedisCluster jedisCluster;
-
+	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
@@ -45,11 +45,12 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
 				HttpServletResponse httpResponse = (HttpServletResponse) response;
 				// HttpSession session = httpRequest.getSession();
 				BaseController bas = new BaseController();
-				TUser redisuser = bas.getWebUserAttribute("user");
+				//TUser redisuser = bas.getWebUserAttribute("user");
+				BaseController bc=new BaseController();
+				//System.out.println(bc.findcookie(httpRequest));
+				byte[] person = jedisCluster.get(bc.findcookie(httpRequest).getBytes());
 
-				// byte[] person = jedisCluster.get(("user").getBytes());
-
-				// TUser redisuser = (TUser) SerializeUtil.unserialize(person);
+				TUser redisuser = (TUser) SerializeUtil.unserialize(person);
 
 				if (redisuser != null) {// 如果验证成功返回true（这里直接写false来模拟验证失败的处理）
 					return true;

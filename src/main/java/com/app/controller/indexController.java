@@ -50,10 +50,9 @@ public class indexController extends BaseController{
 	@LoginCheck(description=true)
 	@RequestMapping(value = "main")
 	@SystemControllerLog(description = "进入main页面")
-	public String main(Model model,TUser tus) {
-//		TUser redisuser = (TUser) SerializeUtil.unserialize(this.get("user".getBytes()));
-//		model.addAttribute("user", redisuser);
+	public String main(Model model,TUser tus,HttpServletRequest request) {
+		TUser redisuser = (TUser) SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
+		model.addAttribute("user", redisuser);
 		return "main";
-		
 	}
 }

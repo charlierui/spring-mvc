@@ -46,44 +46,52 @@ public class LoginController extends BaseController {
 	public void userLogin(TUser tus, String saveCookie, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
-			// TUser redisuser = (TUser)
-			// SerializeUtil.unserialize(this.get(("user").getBytes()));
-			// if (redisuser != null) {
-			// model.addAttribute("user",redisuser);
-			// } else {
-
-			TUser tu = tuserserv.selectByLogin(tus);
-			if (tu == null || tu.getId() == 0) {
-				response_write(getRM(UNSUCCESS, "登陆失败，用户名不存在"), response);
-			} else if (tu.getStatus() == TUser.USER_STATUS_LOCKED) {
-				response_write(getRM(UNSUCCESS, "该用户已锁定，请与管理员联系。"), response);
-			} else if (!tu.getPsw().equals(MD5.MD5(tus.getPsw()))) {
-				response_write(getRM(UNSUCCESS, "密码错误"), response);
-			} else {
-				// logger.info("缓存失效，重新添加缓存");
-				// this.setex("user".getBytes(), 3600,
-				// SerializeUtil.serialize(tu));
-				// this.set("user".getBytes(), SerializeUtil.serialize(tu));
-				// model.addAttribute("user",tu);
-				addSessionWebUser("user", tu);
-				if (StringUtils.isNotEmpty(saveCookie)) {
-					if (saveCookie.equals("yes")) {// 如果选择了记住用户名和密码，写入cookie
-						Cookie cookie = new Cookie("liangyiuserName", CookieUtils.encodeBase64(tu.getUsername()));
-						cookie.setMaxAge(8640000);
-						cookie.setPath(request.getContextPath());
-						response.addCookie(cookie);
-						cookie = new Cookie("liangyipassword", CookieUtils.encodeBase64(tus.getPsw()));
-						cookie.setMaxAge(8640000);
-						cookie.setPath(request.getContextPath());
-						response.addCookie(cookie);
-					}
+			TUser redisuser = (TUser) SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
+			
+			if (redisuser != null) {
+				if (redisuser.getStatus() == TUser.USER_STATUS_LOCKED) {
+					response_write(getRM(UNSUCCESS, "该用户已锁定，请与管理员联系。"), response);
+				} else if (!redisuser.getPsw().equals(MD5.MD5(tus.getPsw()))) {
+					response_write(getRM(UNSUCCESS, "密码错误"), response);
+				} else {
+					response_write(getRM(SUCCESS, "登录成功"), response);
 				}
-				response_write(getRM(SUCCESS, "登录成功"), response);
+			} else {
+				TUser tu = tuserserv.selectByLogin(tus);
+				if (tu == null || tu.getId() == 0) {
+					response_write(getRM(UNSUCCESS, "登陆失败，用户名不存在"), response);
+				} else if (tu.getStatus() == TUser.USER_STATUS_LOCKED) {
+					response_write(getRM(UNSUCCESS, "该用户已锁定，请与管理员联系。"), response);
+				} else if (!tu.getPsw().equals(MD5.MD5(tus.getPsw()))) {
+					response_write(getRM(UNSUCCESS, "密码错误"), response);
+				} else {
+					logger.info("缓存失效，重新添加缓存");
+					this.setex(request.getSession().getId().getBytes(), 3600, SerializeUtil.serialize(tu));
+					Cookie cookieuser = new Cookie("liangyicookie", request.getSession().getId());
+					cookieuser.setMaxAge(8640000);
+					cookieuser.setPath(request.getContextPath());
+					response.addCookie(cookieuser);
+					// this.set("user".getBytes(), SerializeUtil.serialize(tu));
+					// model.addAttribute("user", tu);
+					// addSessionWebUser("user", tu);
+					if (StringUtils.isNotEmpty(saveCookie)) {
+						if (saveCookie.equals("yes")) {// 如果选择了记住用户名和密码，写入cookie
+							Cookie cookie = new Cookie("liangyiuserName", CookieUtils.encodeBase64(tu.getUsername()));
+							cookie.setMaxAge(8640000);
+							cookie.setPath(request.getContextPath());
+							response.addCookie(cookie);
+							cookie = new Cookie("liangyipassword", CookieUtils.encodeBase64(tus.getPsw()));
+							cookie.setMaxAge(8640000);
+							cookie.setPath(request.getContextPath());
+							response.addCookie(cookie);
+						}
+					}
+					response_write(getRM(SUCCESS, "登录成功"), response);
+				}
+
 			}
-			
-			// }
 			// throw new RuntimeException("aaaaaaaaaaaa");
-			
+
 		} catch (Exception e) {
 			try {
 				throw new SystemException("系统异常,登录失败");
@@ -108,7 +116,7 @@ public class LoginController extends BaseController {
 			delWebUserAttribute("user");
 		}
 
-		return "redirect:/indexcon/index";
+		return "redirect:/";
 	}
 
 }

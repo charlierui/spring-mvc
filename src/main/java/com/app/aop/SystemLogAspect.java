@@ -104,7 +104,7 @@ public class SystemLogAspect extends BaseController implements Ordered {
 				logger.info("不添加该路径的访问日志" + uri);
 			} else {
 				if (StringUtils.isNotEmpty(user)) {
-					logger.info("请求人:" + user.getName() + "请求IP:" + ip);
+					logger.info("请求人:【" + user.getName() + "】请求IP:" + ip);
 					tlob = new TLogbook(new Date(), getControllerMethodDescription(joinPoint), ip, checktim,
 							user.getName(), request.getRequestURL().toString(), user.getUsername());
 					logbookserv.insert(tlob);
@@ -138,17 +138,19 @@ public class SystemLogAspect extends BaseController implements Ordered {
 		time.set(System.currentTimeMillis());
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
 				.getRequest();
+		
+		
 		// HttpSession session = request.getSession();
 		// 读取session中的用户
-		// TUser user = (TUser)
-		// SerializeUtil.unserialize(this.get("user".getBytes()));
-		TUser user = this.getWebUserAttribute("user");
+		 TUser user = (TUser)SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
+		//TUser user = this.getWebUserAttribute("user");
 		// 请求的IP
 		String ip = NetworkUtil.getIpAddress(request);
 
 		try {
 			// *========控制台输出=========*//
 			logger.info("=====Controller前置通知开始=====");
+			logger.info("sessionid:"+request.getSession().getId());
 //			logger.info("请求方法:"+ (joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()"));
 //			logger.info("方法描述:" + getControllerMethodDescription(joinPoint));
 //			logger.info("请求人:" + user + "请求IP:" + ip);
@@ -179,17 +181,18 @@ public class SystemLogAspect extends BaseController implements Ordered {
 	public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
 				.getRequest();
-		long begin = System.currentTimeMillis();
+		
 		Object o = pjp.proceed();
+		long begin = time.get();
 		long end = System.currentTimeMillis();
 		// 请求的IP
 		String ip = NetworkUtil.getIpAddress(request);
 		logger.info("方法执行时长：" + begin + "-" + end + " = " + (end - begin) + " ms");
 		Long time = (end - begin) / 1000;
 		// 读取session中的用户
-		// TUser user = (TUser)
-		// SerializeUtil.unserialize(this.get("user".getBytes()));
-		TUser user = this.getWebUserAttribute("user");
+		 TUser user = (TUser)
+		 SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
+		//TUser user = this.getWebUserAttribute("user");
 
 		// 读写分离判断//读写分离标示
 		String name = pjp.getSignature().getName();
@@ -225,9 +228,8 @@ public class SystemLogAspect extends BaseController implements Ordered {
 				.getRequest();
 		// HttpSession session = request.getSession();
 		// 读取session中的用户
-		// TUser user = (TUser)
-		// SerializeUtil.unserialize(this.get("user".getBytes()));
-		TUser user = this.getWebUserAttribute("user");
+		 TUser user = (TUser)SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
+		//TUser user = this.getWebUserAttribute("user");
 		// 获取请求ip
 		String ip = request.getRemoteAddr();
 		// 日志信息

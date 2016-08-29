@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
 /**
  * 
  * @author arui
@@ -39,15 +40,17 @@ public class SerializeUtil {
 	 * @return
 	 */
 	public static Object unserialize(byte[] bytes) {
-		ByteArrayInputStream bais = null;
-		try {
-			// 反序列化
-			bais = new ByteArrayInputStream(bytes);
-			ObjectInputStream ois = new ObjectInputStream(bais);
-			return ois.readObject();
-		} catch (Exception e) {
+		if (bytes !=null) {
+			ByteArrayInputStream bais = null;
+			try {
+				// 反序列化
+				bais = new ByteArrayInputStream(bytes);
+				ObjectInputStream ois = new ObjectInputStream(bais);
+				return ois.readObject();
+			} catch (Exception e) {
 
-		}
+			}
+		} 
 		return null;
 	}
 }
