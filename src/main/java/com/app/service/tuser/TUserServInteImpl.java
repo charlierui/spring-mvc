@@ -11,7 +11,7 @@ import com.app.dao.tuser.TUserMapper;
 import com.app.dto.TuserDto;
 import com.app.model.TUser;
 import com.app.util.PageUtil;
-@Service("tuserserv")
+@Service
 public class TUserServInteImpl implements TUserServInte{
 	@Autowired
 	private TUserMapper tusermapper;  

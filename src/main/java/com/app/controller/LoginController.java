@@ -46,6 +46,18 @@ public class LoginController extends BaseController {
 	public void userLogin(TUser tus, String saveCookie, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
+			if (StringUtils.isNotEmpty(saveCookie)) {
+				if (saveCookie.equals("yes")) {// 如果选择了记住用户名和密码，写入cookie
+					Cookie cookie = new Cookie("liangyiuserName", CookieUtils.encodeBase64(tus.getUsername()));
+					cookie.setMaxAge(864000);
+					cookie.setPath(request.getContextPath());
+					response.addCookie(cookie);
+					cookie = new Cookie("liangyipassword", CookieUtils.encodeBase64(tus.getPsw()));
+					cookie.setMaxAge(864000);
+					cookie.setPath(request.getContextPath());
+					response.addCookie(cookie);
+				}
+			}
 			TUser redisuser = (TUser) SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
 			
 			if (redisuser != null) {
@@ -68,24 +80,13 @@ public class LoginController extends BaseController {
 					logger.info("缓存失效，重新添加缓存");
 					this.setex(request.getSession().getId().getBytes(), 3600, SerializeUtil.serialize(tu));
 					Cookie cookieuser = new Cookie("liangyicookie", request.getSession().getId());
-					cookieuser.setMaxAge(8640000);
+					cookieuser.setMaxAge(3600);
 					cookieuser.setPath(request.getContextPath());
 					response.addCookie(cookieuser);
 					// this.set("user".getBytes(), SerializeUtil.serialize(tu));
 					// model.addAttribute("user", tu);
 					// addSessionWebUser("user", tu);
-					if (StringUtils.isNotEmpty(saveCookie)) {
-						if (saveCookie.equals("yes")) {// 如果选择了记住用户名和密码，写入cookie
-							Cookie cookie = new Cookie("liangyiuserName", CookieUtils.encodeBase64(tu.getUsername()));
-							cookie.setMaxAge(8640000);
-							cookie.setPath(request.getContextPath());
-							response.addCookie(cookie);
-							cookie = new Cookie("liangyipassword", CookieUtils.encodeBase64(tus.getPsw()));
-							cookie.setMaxAge(8640000);
-							cookie.setPath(request.getContextPath());
-							response.addCookie(cookie);
-						}
-					}
+					
 					response_write(getRM(SUCCESS, "登录成功"), response);
 				}
 
@@ -94,6 +95,7 @@ public class LoginController extends BaseController {
 
 		} catch (Exception e) {
 			try {
+				response_write(getRM(UNSUCCESS, "未知原因登录失败，联系管理员"), response);
 				throw new SystemException("系统异常,登录失败");
 			} catch (SystemException e1) {
 				// TODO Auto-generated catch block
@@ -105,15 +107,15 @@ public class LoginController extends BaseController {
 
 	@RequestMapping(value = "/logout")
 	@SystemControllerLog(description = "后台用户退出")
-	public String logout() {
-		TUser redisuser = this.getWebUserAttribute("user");
+	public String logout(HttpServletRequest request) {
+		TUser redisuser = (TUser) SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
 		// TUser redisuser = (TUser)
 		// SerializeUtil.unserialize(this.get("user".getBytes()));
 		// if (redisuser != null) {
 		// this.del("user");
 		// }
 		if (redisuser != null) {
-			delWebUserAttribute("user");
+			del(this.findcookie(request).getBytes());
 		}
 
 		return "redirect:/";

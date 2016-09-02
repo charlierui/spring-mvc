@@ -195,41 +195,20 @@
                 add();
             }
         }
-        //获得督查概况值
 		$(function(){
-			//获得今日新增检查单位数
+			//浏览量统计
 			$.ajax({
 			   type: 'post',
 			   dataType:'json',
 			   async:true,
 			   dataType:'json',
-			   url:'',
+			   url:'${ctx}/indexcon/pvnvjs',
 			   success: function(msg){
-				  $("#addUnitCount").text(msg);
+				  $("#addUnitCount").text(msg.pv);
+				  $("#addPCCount").text(msg.nv);
 			   }
 			});
-			//获得今日新增检查计算机数
-			$.ajax({
-			   type: 'post',
-			   dataType:'json',
-			   async:true,
-			   dataType:'json',
-			   url:'',
-			   success: function(msg){
-				  $("#addPCCount").text(msg);
-			   }
-			});
-			//获得已检查单位数
-			$.ajax({
-			   type: 'post',
-			   dataType:'json',
-			   async:true,
-			   dataType:'json',
-			   url:'',
-			   success: function(msg){
-				  $("#examUnitCount").text(msg);
-			   }
-			});
+			
 		});
     </script>
 
@@ -287,28 +266,29 @@
                 <span> xxx管理平台</span>
             </p>
         </div>
-		<!--  <div class="title-panle">
+	  <div class="title-panle">
             <p>
-                <span>检查概况</span>
+                <span>pv/uv统计</span>
             </p>
         </div> 
      <div class="content-panle">
             <div>
              
                 <div class="content-panle-item">
-                    <span class="caption">今日新增检查单位数：</span>
+                    <span class="caption">访问量：</span>
                     <span id="addUnitCount" class="item-data"></span>
                 </div>
                 <div class="content-panle-item">
-                    <span class="caption">今日新增检查计算机：</span>
+                    <span class="caption">访客数：</span>
                     <span id="addPCCount" class="item-data"></span>
                 </div>
-                <div class="content-panle-item">
+                <!--  <div class="content-panle-item">
                     <span class="caption">已检查单位数：</span>
                     <span id="examUnitCount" class="item-data"></span>
-                </div>
+                </div>-->
             </div> 
         </div>
+        <!-- 
         <div class="title-panle">
             <p>
                 <span>快速进入</span>

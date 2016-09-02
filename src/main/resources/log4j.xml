@@ -32,7 +32,7 @@
 		</filter>
 	</appender>
 
-	<!-- 输出日志到文件 每天一个文件 -->
+	<!-- 输出日志到文件 每天一个文件 
 	<appender name="dailyRollingFile" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="Threshold" value="info"></param>
 		<param name="encoding" value="UTF-8" />
@@ -44,7 +44,7 @@
 			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss\} %-5p] {%l} %m%n"></param>
 		</layout>
 	</appender>
-
+-->
 	<!-- 输出日志到文件 文件大小到达指定尺寸的时候产生一个新的文件 
 	<appender name="railyFile" class="org.apache.log4j.RollingFileAppender">
 		<param name="File" value="${webapp.root}logs/railyFile.log"></param>
@@ -87,9 +87,9 @@
 	<root>
 		<priority value="debug" />
 		<appender-ref ref="console" />
-		<appender-ref ref="dailyRollingFile" />
+		<!--  <appender-ref ref="dailyRollingFile" />
 		<appender-ref ref="railyFile" />
-		<appender-ref ref="file" />
+		<appender-ref ref="file" />-->
 	</root>
 
 </log4j:configuration>

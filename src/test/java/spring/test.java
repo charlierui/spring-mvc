@@ -38,15 +38,17 @@ public class test {
 //        System.out.println(":::::"+value);
 //        System.out.println(jc.get("test"));
         jc.del("user");
-        logger.debug("Start getting keys...");  
+       // logger.debug("Start getting keys...");  
         TreeSet<String> keys = new TreeSet<>();  
         Map<String, JedisPool> clusterNodes = jc.getClusterNodes();  
         for(String k : clusterNodes.keySet()){  
-            logger.debug("Getting keys from: {}", k);  
+            
             JedisPool jp = clusterNodes.get(k);  
             Jedis connection = jp.getResource();  
+            
             try {  
-                keys.addAll(connection.keys("*"));  
+                //keys.addAll(connection.keys("*"));  
+            	logger.debug("Getting keys from: {},内容是:{}",k,connection.keys("*"));  
             } catch(Exception e){  
                 logger.error("Getting keys error: {}", e);  
             } finally{  

@@ -32,6 +32,7 @@ import com.app.model.Healthinquiry;
 import com.app.model.TDepartment;
 import com.app.model.TStations;
 import com.app.model.TUser;
+import com.app.redis.SerializeUtil;
 import com.app.service.department.TdepartmentInte;
 import com.app.service.tdictype.TDictypeInte;
 import com.app.service.tstations.TStationsInte;
@@ -97,7 +98,7 @@ public class TUserController extends BaseController {
 	@RequestMapping(value = "/userSave")
 	@SystemControllerLog(description = "后台用户保存和更新")
 	@ResponseBody
-	public void saveUser(TUser tu, HttpServletResponse response) {
+	public void saveUser(TUser tu, HttpServletResponse response, HttpServletRequest request) {
 		try {
 			if (tu.getId() == null || tu.getId() == 0) {
 				// System.out.println(MD5.MD5(SystemOption.getInstance().getDefaultPsw()));
@@ -109,7 +110,7 @@ public class TUserController extends BaseController {
 			} else {
 				// tu.setStatus(this.getWebUserAttribute("user").getStatus());
 				tuserserv.updateByPrimaryKeySelective(tu);
-				// this.del("user");
+				 this.del(findcookie(request).getBytes());
 				response_write(getRM(SUCCESS, "操作成功"), response);
 			}
 		} catch (Exception e) {
@@ -170,11 +171,12 @@ public class TUserController extends BaseController {
 	@RequestMapping(value = "/resetPwdUser")
 	@SystemControllerLog(description = "后台用户密码重置")
 	@ResponseBody
-	public void resetPwdUser(TUser tu, HttpServletResponse response) {
+	public void resetPwdUser(TUser tu, HttpServletResponse response,HttpServletRequest request) {
 		try {
 			TUser tus = tuserserv.selectByPrimaryKey(tu.getId());
 			tus.setPsw(MD5.MD5(SystemOption.getInstance().getDefaultPsw()));
 			tuserserv.updateByPrimaryKey(tus);
+			 this.del(findcookie(request).getBytes());
 
 			response_write(getRM(SUCCESS, "密码重置成功，密码：" + SystemOption.getInstance().getDefaultPsw()), response);
 		} catch (Exception e) {
@@ -215,9 +217,11 @@ public class TUserController extends BaseController {
 	@RequestMapping(value = "/checkPwd")
 	@SystemControllerLog(description = "检查密码是否正确")
 	@ResponseBody
-	public void checkPwd(TUser tu, String oldPwd, HttpServletResponse response) throws IOException {
+	public void checkPwd(TUser tu, String oldPwd, HttpServletResponse response, HttpServletRequest request) throws IOException {
 		PrintWriter out = response.getWriter();
-		TUser tus = this.getWebUserAttribute("user");
+		//TUser tus = this.getWebUserAttribute("user");
+		TUser tus = (TUser) SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
+
 		if (tus.getPsw().equals(MD5.MD5(oldPwd))) {
 			out.print(true);
 		} else {
@@ -229,12 +233,13 @@ public class TUserController extends BaseController {
 	@RequestMapping(value = "/updatePwd")
 	@SystemControllerLog(description = "修改密码")
 	@ResponseBody
-	public void updatePwd(TUser tu, String newPwd, HttpServletResponse response) {
+	public void updatePwd(TUser tu, String newPwd, HttpServletResponse response, HttpServletRequest request) {
 		try {
-			TUser currentUser = this.getWebUserAttribute("user");
-			currentUser.setPsw(Tool.encoderByMd5(newPwd));
-			this.addSessionWebUser("user", currentUser);
+			TUser currentUser = (TUser) SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
+			currentUser.setPsw(MD5.MD5(newPwd));
+			//this.addSessionWebUser("user", currentUser);
 			tuserserv.updateByPrimaryKey(currentUser);
+			this.del(findcookie(request).getBytes());
 			response_write(getRM(SUCCESS, "密码修改成功，修改后密码为：【" + newPwd + "】请牢记"), response);
 		} catch (Exception e) {
 			logger.info("密码修改失败:" + e.getMessage());
@@ -266,9 +271,10 @@ public class TUserController extends BaseController {
 	@RequestMapping(value = "/deleteUser")
 	@SystemControllerLog(description = "用户删除")
 	@ResponseBody
-	public void deleteUser(TUser tu, HttpServletResponse response) {
+	public void deleteUser(TUser tu, HttpServletResponse response,HttpServletRequest request) {
 		if (tu.getId() != null) {
 			tuserserv.deleteByPrimaryKey(tu.getId());
+			this.del(findcookie(request).getBytes());
 			response_write(getRM(SUCCESS, "删除成功"), response);
 		} else {
 			response_write(getRM(UNSUCCESS, "删除失败"), response);

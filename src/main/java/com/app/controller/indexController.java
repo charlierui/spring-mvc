@@ -1,10 +1,20 @@
 package com.app.controller;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,12 +25,17 @@ import com.app.aop.SystemControllerLog;
 import com.app.exception.SystemException;
 import com.app.model.TUser;
 import com.app.redis.SerializeUtil;
+import com.app.service.log.LogInte;
 import com.app.util.BaseController;
 import com.app.util.CookieUtils;
 
 @Controller
 @RequestMapping(value="indexcon")
 public class indexController extends BaseController{
+	private Logger logger = Logger.getLogger(indexController.class);
+
+	@Autowired 
+	LogInte loginteimpl;
 	@RequestMapping(value = "index")
 	@SystemControllerLog(description = "进入登录页面")
 	public ModelAndView index(Model model,HttpServletRequest request) throws SystemException {
@@ -53,6 +68,20 @@ public class indexController extends BaseController{
 	public String main(Model model,TUser tus,HttpServletRequest request) {
 		TUser redisuser = (TUser) SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
 		model.addAttribute("user", redisuser);
+		
 		return "main";
+	}
+	@LoginCheck(description=true)
+	@RequestMapping(value = "pvnvjs")
+	@SystemControllerLog(description = "浏览量统计")
+	public void pvjisuan(Model model,TUser tus,HttpServletRequest request,HttpServletResponse response) {
+		
+		try {			
+			String json="{\"pv\":"+this.get("pv")+",\"nv\":"+this.get("uv")+"}";
+			response_write(json, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error(e.getMessage());
+		}
 	}
 }

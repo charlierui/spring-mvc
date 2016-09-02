@@ -42,10 +42,10 @@ public class CookieUtils {
   public static void main(String[] args) throws UnsupportedEncodingException {
       String str = "ffdd订单";
       String decode = new String(Base64.encodeBase64(str.getBytes()));    
-      System.out.println("eee" + decode);
+      System.out.println("eee " + decode);
       
       String ddd = new String(Base64.decodeBase64(decode));
-      System.out.println("ddd" + ddd);
+      System.out.println("ddd " + ddd);
   }
 }
 

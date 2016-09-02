@@ -166,6 +166,11 @@ public class BaseController {
 		return jedisCluster.del(key);
 	}
 
+	public Long del(byte[] key) {
+		logger.info("删除集群缓存：" + key);
+		return jedisCluster.del(key);
+	}
+
 	/**
 	 * 根据String[]删除缓存 例如 {"key201", "key202"}
 	 * 
@@ -256,7 +261,7 @@ public class BaseController {
 	 * @param pattern
 	 * @return
 	 */
-	public TreeSet<String> keys(String pattern) {
+	public TreeSet<String> keys() {
 		logger.debug("Start getting keys...");
 		TreeSet<String> keys = new TreeSet<>();
 		Map<String, JedisPool> clusterNodes = jedisCluster.getClusterNodes();
@@ -265,7 +270,7 @@ public class BaseController {
 			JedisPool jp = clusterNodes.get(k);
 			Jedis connection = jp.getResource();
 			try {
-				keys.addAll(connection.keys(pattern));
+				keys.addAll(connection.keys("*"));
 			} catch (Exception e) {
 				logger.error("Getting keys error: {}", e);
 			} finally {
@@ -305,6 +310,19 @@ public class BaseController {
 			response.setContentType("application/json;charset=utf-8");
 			response.getWriter().write(result.toJSONString(json));
 			logger.info("json::::::" + result.toJSONString(json));
+			response.getWriter().flush();
+		} catch (IOException e) {
+			// logger.error(e.getLocalizedMessage(),e);
+		}
+	}
+	
+	protected void response_write(String json, HttpServletResponse response) {
+		try {
+			JSONObject result = new JSONObject();
+
+			response.setContentType("application/json;charset=utf-8");
+			response.getWriter().write(json);
+			logger.info("json::::::" + json);
 			response.getWriter().flush();
 		} catch (IOException e) {
 			// logger.error(e.getLocalizedMessage(),e);

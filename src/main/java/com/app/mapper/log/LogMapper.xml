@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.dao.log.LogMapper">
+	<resultMap id="BaseResultMap" type="com.app.model.Log">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="session_id" jdbcType="VARCHAR" property="sessionId" />
+		<result column="ip" jdbcType="VARCHAR" property="ip" />
+		<result column="page" jdbcType="VARCHAR" property="page" />
+		<result column="access_time" jdbcType="TIMESTAMP" property="accessTime" />
+		<result column="stay_time" jdbcType="BIGINT" property="stayTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, session_id, ip, page, access_time, stay_time
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from log
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getLatestLog" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from log
+		where session_id = #{0} and ip =
+		#{1} order by access_time desc limit 0, 1
+	</select>
+
+	<select id="getPV" resultType="int" parameterType="java.sql.Timestamp">
+		select
+		count(1)
+		from log
+		where access_time >= #{0 } and access_time &lt; #{1 }
+	</select>
+	<select id="getUV" resultType="int" parameterType="java.sql.Timestamp">
+		select
+		count(distinct ip) from log where access_time >= #{0} and access_time &lt; #{1}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from log
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.app.model.Log">
+		insert into log (id,
+		session_id, ip,
+		page, access_time, stay_time
+		)
+		values
+		(#{id,jdbcType=VARCHAR}, #{sessionId,jdbcType=VARCHAR},
+		#{ip,jdbcType=VARCHAR},
+		#{page,jdbcType=VARCHAR},
+		#{accessTime,jdbcType=TIMESTAMP}, #{stayTime,jdbcType=BIGINT}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.app.model.Log">
+		insert into log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="sessionId != null">
+				session_id,
+			</if>
+			<if test="ip != null">
+				ip,
+			</if>
+			<if test="page != null">
+				page,
+			</if>
+			<if test="accessTime != null">
+				access_time,
+			</if>
+			<if test="stayTime != null">
+				stay_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="sessionId != null">
+				#{sessionId,jdbcType=VARCHAR},
+			</if>
+			<if test="ip != null">
+				#{ip,jdbcType=VARCHAR},
+			</if>
+			<if test="page != null">
+				#{page,jdbcType=VARCHAR},
+			</if>
+			<if test="accessTime != null">
+				#{accessTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="stayTime != null">
+				#{stayTime,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.app.model.Log">
+		update log
+		<set>
+			<if test="sessionId != null">
+				session_id = #{sessionId,jdbcType=VARCHAR},
+			</if>
+			<if test="ip != null">
+				ip = #{ip,jdbcType=VARCHAR},
+			</if>
+			<if test="page != null">
+				page = #{page,jdbcType=VARCHAR},
+			</if>
+			<if test="accessTime != null">
+				access_time = #{accessTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="stayTime != null">
+				stay_time = #{stayTime,jdbcType=BIGINT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.app.model.Log">
+		update log
+		set
+		session_id = #{sessionId,jdbcType=VARCHAR},
+		ip =
+		#{ip,jdbcType=VARCHAR},
+		page = #{page,jdbcType=VARCHAR},
+		access_time =
+		#{accessTime,jdbcType=TIMESTAMP},
+		stay_time =
+		#{stayTime,jdbcType=BIGINT}
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>
