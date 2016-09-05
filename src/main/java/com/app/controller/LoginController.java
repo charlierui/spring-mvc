@@ -28,6 +28,7 @@ import redis.clients.jedis.JedisCluster;
 @RequestMapping(value = "/logincon")
 public class LoginController extends BaseController {
 	private static Logger logger = LoggerFactory.getLogger(LoginController.class);
+	private static ThreadLocal<LoginController> connThreadLocal = new ThreadLocal<LoginController>(); 
 
 	@Autowired
 	private TUserServInte tuserserv;
@@ -45,6 +46,7 @@ public class LoginController extends BaseController {
 	@SystemControllerLog(description = "后台用户登录")
 	public void userLogin(TUser tus, String saveCookie, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
+		
 		try {
 			if (StringUtils.isNotEmpty(saveCookie)) {
 				if (saveCookie.equals("yes")) {// 如果选择了记住用户名和密码，写入cookie

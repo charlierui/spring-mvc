@@ -2,6 +2,8 @@ package com.app.model;
 
 import java.util.Date;
 
+import org.springframework.context.annotation.Scope;
+@Scope(value="prototype")
 public class Log {
     private String id;
 

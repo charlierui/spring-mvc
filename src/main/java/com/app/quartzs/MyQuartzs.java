@@ -52,4 +52,6 @@ public class MyQuartzs extends BaseController{
 	// @Scheduled(cron = "0 0 1 * * ?")//每天凌晨1点整
 	// @Scheduled(cron = "0 30 0 * * ?")//每天凌晨0点30分
 	// @Scheduled(cron = "0 */60 * * * ?")//1小时处理一次
+	//	@Scheduled(cron = "0/5 * *  * * ?") // 每隔5秒执行一次
+
 }
