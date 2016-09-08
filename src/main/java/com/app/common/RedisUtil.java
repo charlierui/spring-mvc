@@ -7,11 +7,14 @@ import com.app.redis.SerializeUtil;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+/**
+ * redis 公共缓存接口
+ * @author arui
+ *
+ */
 
 public interface RedisUtil {
-	/**
-	 * redis操作公共方法
-	 */
+	
 
 	/**
 	 * redis保存一个String 的内容 例如 ： 单个变量
