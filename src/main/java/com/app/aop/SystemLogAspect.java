@@ -96,12 +96,12 @@ public class SystemLogAspect extends BaseController implements Ordered {
 			}
 		}
 		if (res == true) {
-			logger.info("不添加该路径的访问日志" + uri);
+			//logger.info("不添加该路径的访问日志" + uri);
 		} else {
 			tnv.setUrl(uri);
 			int count = navigationserv.selectAllByTNavigation(tnv);
 			if (count > 0) {
-				logger.info("不添加该路径的访问日志" + uri);
+				//logger.info("不添加该路径的访问日志" + uri);
 			} else {
 				if (StringUtils.isNotEmpty(user)) {
 					logger.info("请求人:【" + user.getName() + "】请求IP:" + ip);
@@ -111,7 +111,7 @@ public class SystemLogAspect extends BaseController implements Ordered {
 				} else {
 					// 针对已经退出的处理
 					if (uri.endsWith("logout")) {
-						logger.info("过滤退出日志保存");
+						//logger.info("过滤退出日志保存");
 					} else {
 
 						tlob = new TLogbook(new Date(), getControllerMethodDescription(joinPoint), ip, checktim, null,

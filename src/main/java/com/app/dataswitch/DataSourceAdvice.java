@@ -21,14 +21,14 @@ public class DataSourceAdvice implements MethodBeforeAdvice, AfterReturningAdvic
     	boolean isSwitch = false;
     	for(String source :sourceMap.keySet()){
     		if(name.matches(sourceMap.get(source))){
-    			logger.debug("读写分离日志：切换到 "+source+"数据源");  
+    			//logger.debug("读写分离日志：切换到 "+source+"数据源");  
     			DataSourceSwitcher.setDataSource(source);
     			isSwitch = true;
     			break;
     		}
     	}
         if(!isSwitch){  
-        	logger.debug("读写分离日志：切换到只读数据源");
+        	//logger.debug("读写分离日志：切换到只读数据源");
         	DataSourceSwitcher.clearDataSource(); 
         }  
     }  

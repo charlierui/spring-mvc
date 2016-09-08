@@ -7,12 +7,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.app.aop.LoginCheck;
 import com.app.aop.SystemControllerLog;
 import com.app.model.TLogbook;
+import com.app.model.TUser;
+import com.app.redis.SerializeUtil;
 import com.app.service.tlogbook.TLogbookInte;
 import com.app.util.BaseController;
 import com.app.util.PageUtil;
@@ -26,7 +29,9 @@ public class LogbookController extends BaseController{
 	@LoginCheck(description = true)
 	@RequestMapping(value = "/logbookindex")
 	@SystemControllerLog(description = "日志查询页面")
-	public String logbook(){
+	public String logbook(Model model,HttpServletRequest request){
+		TUser redisuser = (TUser) SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
+		model.addAttribute("user", redisuser);
 		return "logbook/loglist";
 	}
 	

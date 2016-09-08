@@ -106,6 +106,7 @@ public class TUserController extends BaseController {
 				tu.setPsw(MD5.MD5(SystemOption.getInstance().getDefaultPsw()));
 				tu.setStatus(TUser.USER_STATUS_WORK);
 				tuserserv.insertSelective(tu);
+				
 				response_write(getRM(SUCCESS, "操作成功"), response);
 			} else {
 				// tu.setStatus(this.getWebUserAttribute("user").getStatus());
@@ -131,11 +132,13 @@ public class TUserController extends BaseController {
 	@RequestMapping(value = "/lockUser")
 	@SystemControllerLog(description = "后台锁定用户")
 	@ResponseBody
-	public void lockUser(TUser tu, HttpServletResponse response) {
+	public void lockUser(TUser tu, HttpServletRequest request,HttpServletResponse response) {
 		try {
 			TUser tus = tuserserv.selectByPrimaryKey(tu.getId());
 			tus.setStatus(2);
 			tuserserv.updateByPrimaryKey(tus);
+			
+			this.del(findcookie(request).getBytes());
 			response_write(getRM(SUCCESS, "锁定成功"), response);
 		} catch (Exception e) {
 			logger.info(e.getMessage());
@@ -154,11 +157,12 @@ public class TUserController extends BaseController {
 	@RequestMapping(value = "/unlockUser")
 	@SystemControllerLog(description = "后台解锁用户")
 	@ResponseBody
-	public void unlockUser(TUser tu, HttpServletResponse response) {
+	public void unlockUser(TUser tu,HttpServletRequest request, HttpServletResponse response) {
 		try {
 			TUser tus = tuserserv.selectByPrimaryKey(tu.getId());
 			tus.setStatus(1);
 			tuserserv.updateByPrimaryKey(tus);
+			this.del(findcookie(request).getBytes());
 			response_write(getRM(SUCCESS, "解锁成功"), response);
 		} catch (Exception e) {
 			logger.info(e.getMessage());
@@ -176,8 +180,7 @@ public class TUserController extends BaseController {
 			TUser tus = tuserserv.selectByPrimaryKey(tu.getId());
 			tus.setPsw(MD5.MD5(SystemOption.getInstance().getDefaultPsw()));
 			tuserserv.updateByPrimaryKey(tus);
-			 this.del(findcookie(request).getBytes());
-
+			this.del(findcookie(request).getBytes());
 			response_write(getRM(SUCCESS, "密码重置成功，密码：" + SystemOption.getInstance().getDefaultPsw()), response);
 		} catch (Exception e) {
 			logger.info(e.getMessage());

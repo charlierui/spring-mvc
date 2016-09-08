@@ -11,7 +11,7 @@ public class DataSourceSwitcher {
   
     public static void setDataSource(String dataSource) {  
         Assert.notNull(dataSource, "dataSource cannot be null");  
-        logger.info("当前数据源"+dataSource);
+        //logger.info("当前数据源"+dataSource);
         contextHolder.set(dataSource);  
     }  
       

@@ -2,7 +2,9 @@ package spring;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -10,12 +12,17 @@ public class LockTest implements Runnable {
 	@SuppressWarnings("unused")
 	private Lock lock = new ReentrantLock();
 	private List<Integer> arrayList = new ArrayList<Integer>();
-	private ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
+	private ReadWriteLock rwl = new ReentrantReadWriteLock();
 
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		get(Thread.currentThread());
+		try {
+			insert(Thread.currentThread());
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public static void main(String[] args) {
@@ -34,13 +41,15 @@ public class LockTest implements Runnable {
 				System.out.println(thread.getName() + "正在进行读操作");
 			}
 			System.out.println(thread.getName() + "读操作完毕");
+		} catch (Exception e) {
+			// TODO: handle exception
 		} finally {
 			rwl.readLock().unlock();
 		}
 	}
 
-	public void insert(Thread thread) {
-		if (lock.tryLock()) {
+	public void insert(Thread thread) throws InterruptedException {
+		if (lock.tryLock(10L, TimeUnit.MILLISECONDS)) {
 			try {
 				System.out.println(thread.getName() + "得到了锁");
 				for (int i = 0; i < 5; i++) {

@@ -20,6 +20,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
+import com.app.common.RedisUtil;
 import com.app.model.TUser;
 import com.app.redis.SerializeUtil;
 
@@ -32,7 +33,7 @@ import redis.clients.jedis.JedisPool;
  * @author arui
  *
  */
-public class BaseController {
+public class BaseController implements RedisUtil {
 	private static Logger logger = LoggerFactory.getLogger(BaseController.class);
 	@Autowired
 	JedisCluster jedisCluster;
@@ -315,7 +316,7 @@ public class BaseController {
 			// logger.error(e.getLocalizedMessage(),e);
 		}
 	}
-	
+
 	protected void response_write(String json, HttpServletResponse response) {
 		try {
 			JSONObject result = new JSONObject();
@@ -418,6 +419,12 @@ public class BaseController {
 
 	}
 
+	/**
+	 * cookie获取
+	 * 
+	 * @param request
+	 * @return
+	 */
 	public String findcookie(HttpServletRequest request) {
 		String name = "";
 		Cookie[] cookies = request.getCookies();
@@ -434,7 +441,7 @@ public class BaseController {
 	}
 
 	/**
-	 * 文件保存
+	 * 文件上传
 	 * 
 	 * @param request
 	 * @param file

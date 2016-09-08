@@ -32,9 +32,7 @@ public class LoginController extends BaseController {
 
 	@Autowired
 	private TUserServInte tuserserv;
-	@Autowired
-	JedisCluster jedisCluster;
-
+	
 	/**
 	 * 登录
 	 * 
@@ -96,13 +94,16 @@ public class LoginController extends BaseController {
 			// throw new RuntimeException("aaaaaaaaaaaa");
 
 		} catch (Exception e) {
-			try {
-				response_write(getRM(UNSUCCESS, "未知原因登录失败，联系管理员"), response);
-				throw new SystemException("系统异常,登录失败");
-			} catch (SystemException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			response_write(getRM(UNSUCCESS, "未知原因登录失败，联系管理员"), response);
+			e.printStackTrace();
+//			try {
+//				response_write(getRM(UNSUCCESS, "未知原因登录失败，联系管理员"), response);
+//				throw new SystemException("系统异常,登录失败");
+//				
+//			} catch (SystemException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
 		}
 
 	}

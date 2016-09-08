@@ -22,7 +22,7 @@ public class LockTest implements Runnable {
 		// TODO Auto-generated method stub
 		get(Thread.currentThread());
 	}
-	@Scheduled(cron = "0/5 * *  * * ?") // 每隔5秒执行一次
+	@Scheduled(cron = "0 0 1 * * ?") // 每天凌晨1点
 	public static void qidong() {
 		LockTest my = new LockTest();
 		new Thread(my, "C").start();// 同一个mt，但是在Thread中就不可以，如果用同一个实例化对象mt，就会出现异常
