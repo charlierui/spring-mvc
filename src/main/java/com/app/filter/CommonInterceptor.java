@@ -54,7 +54,7 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
 				HttpServletRequest httpRequest = (HttpServletRequest) request;
 				HttpServletResponse httpResponse = (HttpServletResponse) response;
 				// HttpSession session = httpRequest.getSession();
-				BaseController bas = new BaseController();
+				//BaseController bas = new BaseController();
 				//TUser redisuser = bas.getWebUserAttribute("user");
 				BaseController bc=new BaseController();
 				//System.out.println(bc.findcookie(httpRequest));
