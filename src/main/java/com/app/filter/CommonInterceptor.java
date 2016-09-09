@@ -43,7 +43,7 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		pvtongji( request,response);
+		//pvtongji( request,response);
 		if (handler.getClass().isAssignableFrom(HandlerMethod.class)) {
 			LoginCheck authPassport = ((HandlerMethod) handler).getMethodAnnotation(LoginCheck.class);
 			// 没有声明需要权限,或者声明不验证权限
@@ -67,7 +67,7 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
 				} else// 如果验证失败
 				{
 					// 返回到登录界面
-					logger.info(request.getContextPath() + " " + httpRequest.getRequestURI());
+					//logger.info(request.getContextPath() + " " + httpRequest.getRequestURI());
 					// httpResponse.sendRedirect(request.getContextPath()+"/indexcon/index");
 					httpResponse.setContentType("text/html;charset=gbk");
 					httpResponse.setCharacterEncoding("utf-8");

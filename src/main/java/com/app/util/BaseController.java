@@ -152,8 +152,11 @@ public class BaseController implements RedisUtil {
 		boolean res = checkexists(key);
 		if (res == true) {
 			logger.info("命中集群缓存：" + key);
+			return jedisCluster.get(key);
+		}else{
+			return null;
 		}
-		return jedisCluster.get(key);
+		
 	}
 
 	/**

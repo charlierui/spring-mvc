@@ -37,7 +37,7 @@ public class test {
 //        String value = jc.get(key);
 //        System.out.println(":::::"+value);
 //        System.out.println(jc.get("test"));
-        jc.del("7F1B6D2A9E8FFD8B080D7B9E2785A43C");
+        jc.del("count");
        // logger.debug("Start getting keys...");  
         TreeSet<String> keys = new TreeSet<>();  
         Map<String, JedisPool> clusterNodes = jc.getClusterNodes();  

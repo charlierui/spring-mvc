@@ -17,12 +17,9 @@ public class LockTest implements Runnable {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		try {
-			insert(Thread.currentThread());
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+			get(Thread.currentThread());
+		
 	}
 
 	public static void main(String[] args) {
