@@ -158,8 +158,20 @@ CREATE TABLE `t_user` (
 -- ----------------------------
 --  Records of `t_user`
 -- ----------------------------
+
+
 BEGIN;
 INSERT INTO `t_user` VALUES ('1', '2', '超级管理员', '2,7,8,9,10,11,12,13', '202cb962ac59075b964b07152d234b70', '1', '1', 'admin'), ('10', '35', '发送接口了的', null, '202cb962ac59075b964b07152d234b70', '2', '1', 'test');
 COMMIT;
+
+
+CREATE TABLE `product` (
+  `id` varchar(255) NOT NULL,
+  `proname` varchar(255) DEFAULT NULL,
+  `uname` varchar(255) DEFAULT NULL,
+  `buycount` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 SET FOREIGN_KEY_CHECKS = 1;
