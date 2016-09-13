@@ -1,5 +1,6 @@
 package com.app.common;
 
+import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
@@ -163,5 +164,11 @@ public interface RedisUtil {
 	 * @return
 	 */
 	public TreeSet<String> keys();
-
+	/**
+	 * 存List
+	 * @param key
+	 */
+	public Long lpush(byte[] key,byte[] value);
+	
+	public List<byte[]> lrange(final byte[] key, final long start, final long end);
 }

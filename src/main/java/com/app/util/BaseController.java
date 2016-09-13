@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 import java.util.UUID;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +39,8 @@ public class BaseController implements RedisUtil {
 	private static Logger logger = LoggerFactory.getLogger(BaseController.class);
 	@Autowired
 	JedisCluster jedisCluster;
+	private ReadWriteLock rwl = new ReentrantReadWriteLock();
+
 	/**
 	 * 成功
 	 */
@@ -60,7 +64,19 @@ public class BaseController implements RedisUtil {
 	 */
 	public String set(String key, String value) {
 		logger.info("添加集群缓存：" + key);
-		return jedisCluster.set(key, value);
+		if (StringUtils.isNotEmpty(key) && StringUtils.isNotEmpty(value)) {
+			rwl.writeLock().lock();
+			try {
+				return jedisCluster.set(key, value);
+			} catch (Exception e) {
+				return null;
+			} finally {
+				rwl.writeLock().unlock();
+
+			}
+		} else {
+			return null;
+		}
 	}
 
 	/**
@@ -72,7 +88,19 @@ public class BaseController implements RedisUtil {
 	 */
 	public String set(byte[] key, byte[] value) {
 		logger.info("添加集群缓存：" + key);
-		return jedisCluster.set(key, value);
+		if (StringUtils.isNotEmpty(key) && StringUtils.isNotEmpty(value)) {
+			rwl.writeLock().lock();
+			try {
+				return jedisCluster.set(key, value);
+			} catch (Exception e) {
+				return null;
+			}finally{
+				rwl.writeLock().unlock();
+
+			}
+		} else {
+			return null;
+		}
 
 	}
 
@@ -153,10 +181,10 @@ public class BaseController implements RedisUtil {
 		if (res == true) {
 			logger.info("命中集群缓存：" + key);
 			return jedisCluster.get(key);
-		}else{
+		} else {
 			return null;
 		}
-		
+
 	}
 
 	/**
@@ -193,7 +221,11 @@ public class BaseController implements RedisUtil {
 	 * @return
 	 */
 	public boolean checkexists(String key) {
-		return jedisCluster.exists(key);
+		if (key != null) {
+			return jedisCluster.exists(key);
+		} else {
+			return false;
+		}
 	}
 
 	public boolean checkexists(byte[] key) {
@@ -257,6 +289,10 @@ public class BaseController implements RedisUtil {
 	 */
 	public Long incr(String key) {
 		return jedisCluster.incr(key);
+	}
+
+	public Long lpush(byte[] key, byte[] value) {
+		return jedisCluster.lpush(key, value);
 	}
 
 	/**
@@ -480,5 +516,11 @@ public class BaseController implements RedisUtil {
 			}
 		}
 		return fileName;
+	}
+
+	@Override
+	public List<byte[]> lrange(byte[] key, long start, long end) {
+		// TODO Auto-generated method stub
+		return jedisCluster.lrange(key, start, end);
 	}
 }

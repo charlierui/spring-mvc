@@ -9,9 +9,11 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import com.app.util.BaseController;
 @Component
 @Lazy(value = false)
-public class LockTest implements Runnable {
+public class LockTest  implements Runnable {
 	@SuppressWarnings("unused")
 	private Lock lock = new ReentrantLock();
 	private List<Integer> arrayList = new ArrayList<Integer>();

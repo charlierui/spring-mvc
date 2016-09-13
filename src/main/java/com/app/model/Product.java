@@ -1,6 +1,8 @@
 package com.app.model;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable{
     private String id;
 
     private String proname;
@@ -40,4 +42,10 @@ public class Product {
     public void setBuycount(Integer buycount) {
         this.buycount = buycount;
     }
+
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", proname=" + proname + ", uname=" + uname + ", buycount=" + buycount + "]";
+	}
+    
 }
