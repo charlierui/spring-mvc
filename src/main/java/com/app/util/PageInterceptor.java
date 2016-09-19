@@ -20,17 +20,7 @@ import org.apache.ibatis.scripting.defaults.DefaultParameterHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.app.controller.LoginController;
 
-/**
- * 分页拦截器
- * 
- * @author SCY
- *
- * @CreateTime 2016年2月19日下午2:21:26
- *
- * @Vsersion 1.0
- */
 @Intercepts({@Signature(method = "prepare", type = StatementHandler.class, args = {Connection.class})} )  
 public class PageInterceptor implements Interceptor {
 	private static Logger logger = LoggerFactory.getLogger(PageInterceptor.class);

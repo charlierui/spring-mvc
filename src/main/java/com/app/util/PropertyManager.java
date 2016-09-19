@@ -1,8 +1,4 @@
-/*
- * PropertyManager.java
- *
- * Created on 2006年5月22日, 上午11:23
- */
+
 
 package com.app.util;
 import java.util.*;
