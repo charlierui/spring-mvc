@@ -40,6 +40,7 @@ public class Demo {
 		for (int c = 0; c < l3.size(); c++) {
 			System.out.print(l3.get(c));
 		}
+		System.out.println();
 		System.out.println(formatTime(11111l));
 	}
 	public static String formatTime(Long ms) {  
