@@ -79,12 +79,11 @@ public class test {
 //		}
 //		System.out.println(pro1.size());
 		//jc.del("testck");
-		System.out.println(jc.get("balcount"));
-//		List<String> list=jc.lrange("testck", 0, -1);
-//		for (int i = 0; i < list.size(); i++) {
-//			System.out.println(list.get(i));
-//		}
-//		jc.del("testck");
+		List<String> list=jc.lrange("testck", 0, -1);
+		for (int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i));
+		}
+		//jc.del("testck");
 
 	}
 }
