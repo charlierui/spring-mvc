@@ -31,15 +31,58 @@
 							},
 							 //上传到服务器，服务器返回相应信息到data里
 			                'onUploadSuccess': function (file, data, response) {
-			                	/* var res=eval(data);
-			                	$("#imgshow").append("<img src='"+data+"'/>"); */
-			                	$.messager.alert("提示", "上传完毕！"); //提示完成  
 			                	console.info("loadsuccess:"+data);
+			                	 var res=eval(data);
+			                	$("#imgshow").append("<img src='${ctx}/"+res+"' width='50' height='50'/>"); 
+			                	$.messager.alert("提示", "上传完毕！"); //提示完成  
+			                	
 			                }
 						});
 	});
 </script>
 <script type="text/javascript" charset="UTF-8">
+
+//增加
+function add_user1() {
+	$('#userAddWnd1').show();
+	$('#userAddWnd1').dialog({
+		iconCls : 'icon-user-add',
+		title : '增加用户',
+		modal : false,
+		buttons : [ {
+			text : '确定',
+			iconCls : 'icon-ok',
+			handler : function() {
+				$('#userAddForm1').form('submit', {
+					success : function(data) {
+						var res = eval('(' + data + ')');
+						if (res.statuscode == '1') {
+							$.messager.alert('友情提示', res.msg, 'info');
+							resetDG('#user');
+						} else {
+							$.messager.alert('友情提示', res.msg, 'error');
+							resetDG('#user');
+						}
+						$('#userAddWnd').dialog('close');
+					}
+				});
+			}
+		}, {
+			text : '取消',
+			iconCls : 'icon-cancel',
+			handler : function() {
+				$('#userAddWnd1').dialog('close');
+			}
+		} ]
+	});
+
+	$('#userAddForm').form('reset');
+	$('#firstBox').focus();
+
+}
+
+
+
 	//增加
 	function add_user() {
 		$('#userAddWnd').show();
@@ -317,6 +360,10 @@
 					class="vline">|</span> <a href="javascript:void(0)"
 					onclick="del_user()" class="easyui-linkbutton"
 					data-options="iconCls:'icon-key',plain:true">删除用户</a>
+					<span
+					class="vline">|</span> <a href="javascript:void(0)"
+					onclick="add_user1()" class="easyui-linkbutton"
+					data-options="iconCls:'icon-key',plain:true">文件上传</a>
 					</td>
 			</tr>
 			<tr>
@@ -394,7 +441,7 @@
                         	                                                      panelHeight:'200'"
 						style="width: 205px" /></td>
 				</tr>
-				<tr>
+			<!--	<tr>
 					<td>文件上传：</td>
 					<td>
 						<div>
@@ -417,11 +464,11 @@
 
 					</td>
 				</tr>
-<!--  <tr>
+  <tr>
 					<td>文件上传：</td>
 					<td>
 						<div id="imgshow">
-							<img src="http://localhost:8090/spring/up/8e36c66a-ea48-4cb2-9989-774f1628eb1e.jpg"/>
+							
 						</div>
 
 					</td>
@@ -473,5 +520,49 @@
 			</table>
 		</form>
 	</div>
+	
+	<div id="userAddWnd1"
+		style="width: 450px; height: 330px; padding: 5px; background: #fafafa; display: none">
+		<form id="userAddForm" method="post"
+			action="">
+			<table>
+				
+				<tr>
+					<td>文件上传：</td>
+					<td>
+						<div>
+							<input class="easyui-validatebox" type="hidden"
+								id="Attachment_GUID" name="Attachment_GUID" /> <input
+								id="file_upload" name="file_upload" type="file"
+								multiple="multiple"> <a href="javascript:void(0)"
+								class="easyui-linkbutton" id="btnUpload"
+								data-options="plain:true,iconCls:'icon-save'"
+								onclick="javascript: $('#file_upload').uploadify('upload', '*')">上传</a>
+							<a href="javascript:void(0)" class="easyui-linkbutton"
+								id="btnCancelUpload"
+								data-options="plain:true,iconCls:'icon-cancel'"
+								onclick="javascript: $('#file_upload').uploadify('cancel', '*')">取消</a>
+
+							<div id="fileQueue" class="fileQueue"></div>
+							<div id="div_files"></div>
+							<br />
+						</div>
+
+					</td>
+				</tr>
+<!--  --><tr>
+					<td>文件上传：</td>
+					<td>
+						<div id="imgshow">
+							
+						</div>
+
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	
+	
 </body>
 </html>
