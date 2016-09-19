@@ -20,7 +20,7 @@ public class mias extends BaseController {
 	@Autowired
 	private ProductInte productimpl;
 
-	@Scheduled(cron = "0 */60 * * * ?") // 每小时执行一次
+	@Scheduled(cron = "0 */5 * * * ?") // 每小时执行一次
 	public void test() throws Exception {
 		// 得到缓存
 		List<byte[]> pro1 = lrange("chuku".getBytes(), 0, -1);

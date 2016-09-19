@@ -294,6 +294,9 @@ public class BaseController implements RedisUtil {
 	public Long lpush(byte[] key, byte[] value) {
 		return jedisCluster.lpush(key, value);
 	}
+	public Long lpush(String key, String value) {
+		return jedisCluster.lpush(key, value);
+	}
 
 	/**
 	 * 获取所有的key

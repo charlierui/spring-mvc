@@ -35,50 +35,70 @@ public class ProductController extends BaseController {
 	private Jedis jedis;
 	@Autowired
 	private ProductInte productimpl;
-
+	private static int r = 1;
 	// Integer count = 0;
+	static {
+		//BaseController bc = new BaseController();
+		//set("balcount", "100");
+	}
 
 	@RequestMapping(value = "chuku")
 	public void chuku(final HttpServletRequest request, final HttpServletResponse response) {
-		
+
 		try {
-			
+			rwl.readLock().lock();
 			String balcount = null;
-			synchronized (this) {
-				balcount = get("balcount");
-				
-				int r = 1;// new Random().nextInt(2);
-				
+			// synchronized (this) {
+			balcount = get("balcount");
+			rwl.readLock().unlock();
+			if (checkexists(request.getSession().getId()) == true) {
+				System.out.println("重复抢购");
+				response_write(getRM(get("count"), "重复抢购"), response);
+			} else if (Integer.valueOf(balcount) > 0) {
+				rwl.writeLock().lock();
 				int lastAccount = 0;
-				if (checkexists(request.getSession().getId()) == true) {
-					System.out.println("重复抢购");
-					response_write(getRM(get("count"), "重复抢购"), response);
-				} else if (Integer.valueOf(balcount) > 0) {
-					String checkbal = get("balcount");
-					lastAccount = Integer.valueOf(balcount) - r;
-					set("balcount", lastAccount + "");
+				lastAccount = Integer.valueOf(balcount) - r;
+				set("balcount", lastAccount + "");
 
-					Product pro = new Product();
-					pro.setId(request.getSession().getId());
-					pro.setProname("恭喜" + Thread.currentThread().getName() + "成功抢购iphone7,剩余" + lastAccount);
-					pro.setUname(Thread.currentThread().getName());
-					pro.setBuycount(lastAccount);
-					this.lpush("chuku".getBytes(),SerializeUtil.serialize(pro));
-					setex(request.getSession().getId(), 3600,request.getSession().getId());
-					response_write(
-							getRM(get("count"), "恭喜" + Thread.currentThread().getName() + "抢购成功,剩余" + lastAccount),
-							response);
+				Product pro = new Product();
+				pro.setId(request.getSession().getId());
+				pro.setProname("恭喜" + Thread.currentThread().getName() + "成功抢购iphone7,剩余" + lastAccount);
+				pro.setUname(Thread.currentThread().getName());
+				pro.setBuycount(lastAccount);
+				this.lpush("chuku".getBytes(), SerializeUtil.serialize(pro));
+				// setex(request.getSession().getId(),
+				// 3600,request.getSession().getId());
+				rwl.writeLock().unlock();
+				response_write(getRM(get("count"), "恭喜" + Thread.currentThread().getName() + "抢购成功,剩余" + lastAccount),
+						response);
 
-				} else {
-					response_write(getRM(get("count"), "库存不足"), response);
+			} else {
+				response_write(getRM(get("count"), "库存不足"), response);
 
-				}
 			}
+			// }
 
-		} catch (Exception e) {
+		} finally {
 			// TODO: handle exception
-		} 
+		}
 
+	}
+
+	@RequestMapping(value = "test")
+	public void test(final HttpServletRequest request, final HttpServletResponse response) throws InterruptedException {
+		rwl.readLock().lock();
+		String balcount = null;
+		balcount = get("balcount");
+		System.out.println("--------:" + balcount);
+		rwl.readLock().unlock();
+		if (Integer.valueOf(balcount) > 0) {
+			rwl.writeLock().lock();
+			int lastAccount = 0;
+			lastAccount = Integer.valueOf(balcount) - r;
+			set("balcount", lastAccount + "");
+			this.lpush("testck", lastAccount + "");
+			rwl.writeLock().unlock();
+		}
 	}
 
 }

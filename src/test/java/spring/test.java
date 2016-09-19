@@ -41,26 +41,27 @@ public class test {
 		//
 		// String value = jc.get(key);
 		// System.out.println(":::::"+value);
-		// System.out.println(jc.get("test"));
-		// jc.del("chuku".getBytes());
+		// System.out.println(jc.get("count".getBytes()));
+		//jc.del("chuku".getBytes());
+		// jc.del("count");
 		// logger.debug("Start getting keys...");
-		// TreeSet<String> keys = new TreeSet<>();
-		// Map<String, JedisPool> clusterNodes = jc.getClusterNodes();
-		// for(String k : clusterNodes.keySet()){
-		//
-		// JedisPool jp = clusterNodes.get(k);
-		// Jedis connection = jp.getResource();
-		//
-		// try {
-		// //keys.addAll(connection.keys("*"));
-		// logger.debug("Getting keys from: {},内容是:{}",k,connection.keys("*"));
-		// } catch(Exception e){
-		// logger.error("Getting keys error: {}", e);
-		// } finally{
-		// logger.debug("Connection closed.");
-		// connection.close();//用完一定要close这个链接！！！
-		// }
-		// }
+//		TreeSet<String> keys = new TreeSet<>();
+//		Map<String, JedisPool> clusterNodes = jc.getClusterNodes();
+//		for (String k : clusterNodes.keySet()) {
+//
+//			JedisPool jp = clusterNodes.get(k);
+//			Jedis connection = jp.getResource();
+//
+//			try {
+//				// keys.addAll(connection.keys("*"));
+//				logger.debug("Getting keys from: {},内容是:{}", k, connection.keys("*"));
+//			} catch (Exception e) {
+//				logger.error("Getting keys error: {}", e);
+//			} finally {
+//				logger.debug("Connection closed.");
+//				connection.close();// 用完一定要close这个链接！！！
+//			}
+//		}
 		// System.out.println(keys);
 		// Product pro=new Product();
 		// pro.setId("数据测试哦");
@@ -69,14 +70,21 @@ public class test {
 		// pro.setUname(Thread.currentThread().getName());
 		// pro.setBuycount(1);
 		// jc.lpush("test1".getBytes(), SerializeUtil.serialize(pro));
-		Product pro = null;
-		List<byte[]> pro1 = jc.lrange("chuku".getBytes(), 0, -1);
-
+//		Product pro = null;
+//		List<byte[]> pro1 = jc.lrange("testck".getBytes(), 0, -1);
+//
 //		for (int i = 0; i < pro1.size(); i++) {
 //			pro = (Product) SerializeUtil.unserialize(pro1.get(i));
-//			//System.out.println(pro);
+//			System.out.println(pro);
 //		}
-		System.out.println(pro1.size());
+//		System.out.println(pro1.size());
+		//jc.del("testck");
+		System.out.println(jc.get("balcount"));
+//		List<String> list=jc.lrange("testck", 0, -1);
+//		for (int i = 0; i < list.size(); i++) {
+//			System.out.println(list.get(i));
+//		}
+//		jc.del("testck");
 
 	}
 }

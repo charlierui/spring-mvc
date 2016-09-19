@@ -171,4 +171,5 @@ public interface RedisUtil {
 	public Long lpush(byte[] key,byte[] value);
 	
 	public List<byte[]> lrange(final byte[] key, final long start, final long end);
+	public Long lpush(String key, String value);
 }
