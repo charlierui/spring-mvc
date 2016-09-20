@@ -523,7 +523,7 @@ function add_user1() {
 	
 	<div id="userAddWnd1"
 		style="width: 450px; height: 330px; padding: 5px; background: #fafafa; display: none">
-		<form id="userAddForm" method="post"
+		<form id="userAddForm1" method="post"
 			action="">
 			<table>
 				
