@@ -2,6 +2,7 @@ package com.app.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
@@ -87,7 +88,12 @@ public class BaseController implements RedisUtil {
 	 * @return
 	 */
 	public String set(byte[] key, byte[] value) {
-		logger.info("添加集群缓存：" + key);
+		try {
+			logger.info("添加集群缓存：" + new String(key, "utf-8"));
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		if (StringUtils.isNotEmpty(key) && StringUtils.isNotEmpty(value)) {
 			rwl.writeLock().lock();
 			try {
@@ -112,7 +118,12 @@ public class BaseController implements RedisUtil {
 	 * @return
 	 */
 	public String setex(byte[] key, int seconds, byte[] value) {
-		logger.info("添加集群缓存：" + key);
+		try {
+			logger.info("添加集群缓存：" + new String(key, "utf-8"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return jedisCluster.setex(key, seconds, value);
 	}
 
@@ -162,7 +173,12 @@ public class BaseController implements RedisUtil {
 	public byte[] get(byte[] key) {
 		boolean res = checkexists(key);
 		if (res == true) {
-			logger.info((key + " 命中集群缓存：" + SerializeUtil.unserialize(jedisCluster.get(key))));
+			try {
+				logger.info((new String(key, "utf-8") + " 命中集群缓存：" + SerializeUtil.unserialize(jedisCluster.get(key))));
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return jedisCluster.get(key);
 		} else {
 			return null;
@@ -199,7 +215,12 @@ public class BaseController implements RedisUtil {
 	}
 
 	public Long del(byte[] key) {
-		logger.info("删除集群缓存：" + key);
+		try {
+			logger.info("删除集群缓存：" + new String(key, "utf-8"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return jedisCluster.del(key);
 	}
 
@@ -518,7 +539,7 @@ public class BaseController implements RedisUtil {
 				e.printStackTrace();
 			}
 		}
-		return fileName;
+		return foldername+"/"+logImageName;
 	}
 
 	@Override
