@@ -23,19 +23,19 @@ public class mias extends BaseController {
 	@Scheduled(cron = "0 */5 * * * ?") // 每小时执行一次
 	public void test() throws Exception {
 		// 得到缓存
-		List<byte[]> pro1 = lrange("chuku".getBytes(), 0, -1);
-		Product pro = null;
-		for (int i = 0; i < pro1.size(); i++) {
-			pro = (Product) SerializeUtil.unserialize(pro1.get(i));
-			Product checkp = productimpl.selectByPrimaryKey(pro.getId());
-			if (checkp != null) {
-				logger.info("已存在");
-			}else{
-				productimpl.insert(pro);
-			}
-			
-		}
-		this.del("chuku".getBytes());
+//		List<byte[]> pro1 = lrange("chuku".getBytes(), 0, -1);
+//		Product pro = null;
+//		for (int i = 0; i < pro1.size(); i++) {
+//			pro = (Product) SerializeUtil.unserialize(pro1.get(i));
+//			Product checkp = productimpl.selectByPrimaryKey(pro.getId());
+//			if (checkp != null) {
+//				logger.info("已存在");
+//			}else{
+//				productimpl.insert(pro);
+//			}
+//			
+//		}
+//		this.del("chuku".getBytes());
 	}
 
 }

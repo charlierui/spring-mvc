@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.app.dao.tdicvalue.TDicvalueMapper">
-<!-- redis 自动缓存 -->
-<!--  <cache eviction="LRU" type="com.app.redis.RedisCache" />-->
+	<!-- redis 自动缓存 -->
+	<!-- <cache eviction="LRU" type="com.app.redis.RedisCache" /> -->
 	<resultMap id="BaseResultMap" type="com.app.model.TDicvalue">
 		<id column="vid" property="vid" jdbcType="BIGINT" />
 		<result column="bak" property="bak" jdbcType="VARCHAR" />
@@ -23,7 +23,19 @@
 		from t_dicvalue
 		where vid = #{vid,jdbcType=BIGINT}
 	</select>
-
+	<select id="selectByTidld" resultMap="BaseResultMap"
+		parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from t_dicvalue
+		
+		where 1=1
+		
+		<if test="tid != null and tid != ''">
+			AND tid =#{tid}
+		</if>
+		
+	</select>
 
 	<select id="selectByTid" resultMap="BaseResultMap"
 		parameterType="com.app.util.PageUtil">
@@ -45,15 +57,14 @@
 			</if>
 		</where>
 	</select>
-	<select id="selectByTid1" resultType="int"
-		parameterType="map">
+	<select id="selectByTid1" resultType="int" parameterType="map">
 		select
 		count(1)
 		from t_dicvalue
 		where 1=1
-			<if test="tid != null and tid != ''">
-				AND tid =#{tid}
-			</if>
+		<if test="tid != null and tid != ''">
+			AND tid =#{tid}
+		</if>
 	</select>
 
 	<select id="selectById" resultType="int" parameterType="com.app.model.TDicvalue">
@@ -62,25 +73,31 @@
 		from t_dicvalue
 		where id = #{id} and tid=#{tid}
 	</select>
-	
-	<select id="selectBySoftcode" resultType="int" parameterType="com.app.model.TDicvalue">
+
+	<select id="selectBySoftcode" resultType="int"
+		parameterType="com.app.model.TDicvalue">
 		select
 		count(1)
 		from t_dicvalue
-		where softcode = #{softcode}  and tid=#{tid}
+		where softcode =
+		#{softcode} and tid=#{tid}
 	</select>
 
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-		delete from t_dicvalue
+		delete from
+		t_dicvalue
 		where vid = #{vid,jdbcType=BIGINT}
 	</delete>
 	<insert id="insert" parameterType="com.app.model.TDicvalue">
-		insert into t_dicvalue (vid, bak, id,
+		insert into t_dicvalue (vid,
+		bak, id,
 		softcode, sortnum, status,
 		text, tid)
-		values (#{vid,jdbcType=BIGINT}, #{bak,jdbcType=VARCHAR},
+		values
+		(#{vid,jdbcType=BIGINT}, #{bak,jdbcType=VARCHAR},
 		#{id,jdbcType=VARCHAR},
-		#{softcode,jdbcType=VARCHAR}, #{sortnum,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
+		#{softcode,jdbcType=VARCHAR},
+		#{sortnum,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
 		#{text,jdbcType=VARCHAR}, #{tid,jdbcType=BIGINT})
 	</insert>
 	<insert id="insertSelective" parameterType="com.app.model.TDicvalue">
@@ -170,10 +187,13 @@
 		set bak = #{bak,jdbcType=VARCHAR},
 		id = #{id,jdbcType=VARCHAR},
 		softcode = #{softcode,jdbcType=VARCHAR},
-		sortnum = #{sortnum,jdbcType=INTEGER},
+		sortnum =
+		#{sortnum,jdbcType=INTEGER},
 		status = #{status,jdbcType=INTEGER},
-		text = #{text,jdbcType=VARCHAR},
+		text =
+		#{text,jdbcType=VARCHAR},
 		tid = #{tid,jdbcType=BIGINT}
-		where vid = #{vid,jdbcType=BIGINT}
+		where vid =
+		#{vid,jdbcType=BIGINT}
 	</update>
 </mapper>

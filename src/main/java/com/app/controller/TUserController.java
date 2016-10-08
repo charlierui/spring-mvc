@@ -111,7 +111,7 @@ public class TUserController extends BaseController {
 			} else {
 				// tu.setStatus(this.getWebUserAttribute("user").getStatus());
 				tuserserv.updateByPrimaryKeySelective(tu);
-				 this.del(findcookie(request).getBytes());
+				// this.del(findcookie(request).getBytes());
 				response_write(getRM(SUCCESS, "操作成功"), response);
 			}
 		} catch (Exception e) {

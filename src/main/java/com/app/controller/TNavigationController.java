@@ -176,8 +176,8 @@ public class TNavigationController extends BaseController {
 	public void navigation(HttpServletRequest request,HttpServletResponse response) {
 		List navs = new ArrayList();
 		String navids=null;		
-		TUser redisuser = (TUser) SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
-		//TUser redisuser =this.getWebUserAttribute("user");
+		//TUser redisuser = (TUser) SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
+		TUser redisuser =this.getWebUserAttribute("user");
 		if (redisuser != null) {
 			 navids=redisuser.getNavids();		
 		}
@@ -206,9 +206,9 @@ public class TNavigationController extends BaseController {
 	 * */
 	private void  addChild(HttpServletRequest request,Navigation2 n){
 		String navids=null;		
-		TUser redisuser = (TUser) SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
+		//TUser redisuser = (TUser) SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
 
-		//TUser redisuser = this.getWebUserAttribute("user");
+		TUser redisuser = this.getWebUserAttribute("user");
 		if (redisuser != null) {
 			 navids=redisuser.getNavids();		
 		}

@@ -86,4 +86,11 @@ public class TDicvalueInteImpl implements TDicvalueInte {
 		return tdicvamap.selectBySoftcode(record);
 	}
 
+	@Override
+	@SystemServiceLog(description="连动查询")
+	public List<TDicvalue> selectByTidld(Map map) {
+		// TODO Auto-generated method stub
+		return tdicvamap.selectByTidld(map);
+	}
+
 }

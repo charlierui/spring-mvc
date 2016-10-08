@@ -66,7 +66,8 @@ public class indexController extends BaseController{
 	@RequestMapping(value = "main")
 	@SystemControllerLog(description = "进入main页面")
 	public String main(Model model,TUser tus,HttpServletRequest request) {
-		TUser redisuser = (TUser) SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
+		//TUser redisuser = (TUser) SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
+		TUser redisuser = (TUser) getWebUserAttribute("user");
 		model.addAttribute("user", redisuser);
 		
 		return "main";
@@ -77,7 +78,8 @@ public class indexController extends BaseController{
 	public void pvjisuan(Model model,TUser tus,HttpServletRequest request,HttpServletResponse response) {
 		
 		try {			
-			String json="{\"pv\":"+this.get("pv")+",\"nv\":"+this.get("uv")+"}";
+			//String json="{\"pv\":"+this.get("pv")+",\"nv\":"+this.get("uv")+"}";
+			String json="{\"pv\":"+1+",\"nv\":"+2+"}";
 			response_write(json, response);
 		} catch (Exception e) {
 			e.printStackTrace();

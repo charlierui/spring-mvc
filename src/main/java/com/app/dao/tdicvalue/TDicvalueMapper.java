@@ -19,6 +19,7 @@ public interface TDicvalueMapper {
 
     int updateByPrimaryKey(TDicvalue record);
     List<TDicvalue> selectByTid(PageUtil pu);
+    List<TDicvalue> selectByTidld(Map map);
     int selectByTid1(Map map);
     int selectById(TDicvalue record);
     int selectBySoftcode(TDicvalue record);

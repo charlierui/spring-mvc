@@ -3,6 +3,7 @@ package com.app.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,7 @@ import com.app.aop.LoginCheck;
 import com.app.aop.SystemControllerLog;
 import com.app.dto.TDictypeDto;
 import com.app.model.TDictype;
+import com.app.model.TDicvalue;
 import com.app.redis.SerializeUtil;
 import com.app.service.tdictype.TDictypeInte;
 import com.app.service.tdicvalue.TDicvalueInte;
@@ -37,6 +39,29 @@ public class TDictypeController extends BaseController {
 	@Autowired
 	private TDicvalueInte tdicvalueserv;
 
+	/**
+	 * 联动测试
+	 */
+	
+	@LoginCheck(description = true)
+	@RequestMapping(value = "/ldindex")
+	@SystemControllerLog(description = "跳转到连动首页")
+	public String ldindex(HttpServletRequest request, HttpServletResponse response) {
+		return "dictype/ldindex";
+	}
+	
+	@LoginCheck(description = true)
+	@RequestMapping(value = "/listDictypeAllld")
+	@SystemControllerLog(description = "加载字典类别")
+	@ResponseBody
+	public void listDictypeAllld(TDicvalue td,HttpServletRequest request, HttpServletResponse response) {
+		Map map=new HashMap();
+		map.put("tid", td.getTid());
+		List<TDicvalue> data = tdicvalueserv.selectByTidld(map);
+		response_write(data, response);
+	}
+	
+	
 	/**
 	 * 数据字典首页
 	 * 
@@ -57,7 +82,6 @@ public class TDictypeController extends BaseController {
 
 		response_write(tdictypeserv.selectAll(), response);
 	}
-
 	@LoginCheck(description = true)
 	@RequestMapping(value = "/saveDictype")
 	@SystemControllerLog(description = "字典类别保存和更新")
@@ -147,7 +171,7 @@ public class TDictypeController extends BaseController {
 			TDictypeDto td2 = list2.get(i);
 			list1.add(td2);
 		}
-		this.set("ditcombox".getBytes(), SerializeUtil.serialize(list1));
+		//this.set("ditcombox".getBytes(), SerializeUtil.serialize(list1));
 		response_write(list1, response);
 
 	}

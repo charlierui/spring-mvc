@@ -142,8 +142,8 @@ public class SystemLogAspect extends BaseController implements Ordered {
 		
 		// HttpSession session = request.getSession();
 		// 读取session中的用户
-		 TUser user = (TUser)SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
-		//TUser user = this.getWebUserAttribute("user");
+		// TUser user = (TUser)SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
+		TUser user = this.getWebUserAttribute("user");
 		// 请求的IP
 		String ip = NetworkUtil.getIpAddress(request);
 
@@ -190,9 +190,8 @@ public class SystemLogAspect extends BaseController implements Ordered {
 		logger.info("方法执行时长：" + begin + "-" + end + " = " + (end - begin) + " ms");
 		Long time = (end - begin) / 1000;
 		// 读取session中的用户
-		 TUser user = (TUser)
-		 SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
-		//TUser user = this.getWebUserAttribute("user");
+		// TUser user = (TUser)SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
+		TUser user = this.getWebUserAttribute("user");
 
 		// 读写分离判断//读写分离标示
 		String name = pjp.getSignature().getName();
@@ -228,8 +227,8 @@ public class SystemLogAspect extends BaseController implements Ordered {
 				.getRequest();
 		// HttpSession session = request.getSession();
 		// 读取session中的用户
-		 TUser user = (TUser)SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
-		//TUser user = this.getWebUserAttribute("user");
+		// TUser user = (TUser)SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
+		TUser user = this.getWebUserAttribute("user");
 		// 获取请求ip
 		String ip = request.getRemoteAddr();
 		// 日志信息

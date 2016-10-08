@@ -370,8 +370,9 @@ public class BaseController implements RedisUtil {
 	protected void response_write(ReturnMSG json, HttpServletResponse response) {
 		try {
 			JSONObject result = new JSONObject();
-
-			response.setContentType("application/json;charset=utf-8");
+			response.setCharacterEncoding("UTF-8"); //设置编码格式
+			//response.setContentType("text/html;charset=utf-8");
+			//response.setContentType("application/json;charset=utf-8");
 			response.getWriter().write(result.toJSONString(json));
 			logger.info("json::::::" + result.toJSONString(json));
 			response.getWriter().flush();
@@ -383,8 +384,8 @@ public class BaseController implements RedisUtil {
 	protected void response_write(String json, HttpServletResponse response) {
 		try {
 			JSONObject result = new JSONObject();
-
-			response.setContentType("application/json;charset=utf-8");
+			response.setCharacterEncoding("UTF-8"); //设置编码格式
+			//response.setContentType("application/json;charset=utf-8");
 			response.getWriter().write(json);
 			logger.info("json::::::" + json);
 			response.getWriter().flush();
@@ -402,8 +403,8 @@ public class BaseController implements RedisUtil {
 	protected void response_write(List json, HttpServletResponse response) {
 		try {
 			JSONObject result = new JSONObject();
-
-			response.setContentType("application/json;charset=utf-8");
+			response.setCharacterEncoding("UTF-8"); //设置编码格式
+			//response.setContentType("application/json;charset=utf-8");
 			response.getWriter().write(result.toJSONString(json));
 			logger.info("json::::::" + result.toJSONString(json));
 			response.getWriter().flush();
@@ -415,8 +416,8 @@ public class BaseController implements RedisUtil {
 	protected void response_write(Object json, HttpServletResponse response) {
 		try {
 			JSONObject result = new JSONObject();
-
-			response.setContentType("application/json;charset=utf-8");
+			response.setCharacterEncoding("UTF-8"); //设置编码格式
+			//response.setContentType("application/json;charset=utf-8");
 			response.getWriter().write(result.toJSONString(json));
 			logger.info("json::::::" + result.toJSONString(json));
 			response.getWriter().flush();

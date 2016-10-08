@@ -58,17 +58,17 @@ public class LoginController extends BaseController {
 					response.addCookie(cookie);
 				}
 			}
-			TUser redisuser = (TUser) SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
-			
-			if (redisuser != null) {
-				if (redisuser.getStatus() == TUser.USER_STATUS_LOCKED) {
-					response_write(getRM(UNSUCCESS, "该用户已锁定，请与管理员联系。"), response);
-				} else if (!redisuser.getPsw().equals(MD5.MD5(tus.getPsw()))) {
-					response_write(getRM(UNSUCCESS, "密码错误"), response);
-				} else {
-					response_write(getRM(SUCCESS, "登录成功"), response);
-				}
-			} else {
+//			TUser redisuser = (TUser) SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
+//			
+//			if (redisuser != null) {
+//				if (redisuser.getStatus() == TUser.USER_STATUS_LOCKED) {
+//					response_write(getRM(UNSUCCESS, "该用户已锁定，请与管理员联系。"), response);
+//				} else if (!redisuser.getPsw().equals(MD5.MD5(tus.getPsw()))) {
+//					response_write(getRM(UNSUCCESS, "密码错误"), response);
+//				} else {
+//					response_write(getRM(SUCCESS, "登录成功"), response);
+//				}
+//			} else {
 				TUser tu = tuserserv.selectByLogin(tus);
 				if (tu == null || tu.getId() == 0) {
 					response_write(getRM(UNSUCCESS, "登陆失败，用户名不存在"), response);
@@ -78,19 +78,19 @@ public class LoginController extends BaseController {
 					response_write(getRM(UNSUCCESS, "密码错误"), response);
 				} else {
 					logger.info("缓存失效，重新添加缓存");
-					this.setex(request.getSession().getId().getBytes(), 3600, SerializeUtil.serialize(tu));
+					//this.setex(request.getSession().getId().getBytes(), 3600, SerializeUtil.serialize(tu));
 					Cookie cookieuser = new Cookie("liangyicookie", request.getSession().getId());
 					cookieuser.setMaxAge(3600);
 					cookieuser.setPath(request.getContextPath());
 					response.addCookie(cookieuser);
 					// this.set("user".getBytes(), SerializeUtil.serialize(tu));
-					// model.addAttribute("user", tu);
-					// addSessionWebUser("user", tu);
+					 model.addAttribute("user", tu);
+					 addSessionWebUser("user", tu);
 					
 					response_write(getRM(SUCCESS, "登录成功"), response);
 				}
 
-			}
+			//}
 			// throw new RuntimeException("aaaaaaaaaaaa");
 
 		} catch (Exception e) {
@@ -111,15 +111,15 @@ public class LoginController extends BaseController {
 	@RequestMapping(value = "/logout")
 	@SystemControllerLog(description = "后台用户退出")
 	public String logout(HttpServletRequest request) {
-		TUser redisuser = (TUser) SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
-		// TUser redisuser = (TUser)
-		// SerializeUtil.unserialize(this.get("user".getBytes()));
-		// if (redisuser != null) {
-		// this.del("user");
-		// }
-		if (redisuser != null) {
-			del(this.findcookie(request).getBytes());
-		}
+		//TUser redisuser = (TUser) SerializeUtil.unserialize(this.get(this.findcookie(request).getBytes()));
+		 TUser redisuser = (TUser)this.getWebUserAttribute("user");
+		 if (redisuser != null) {
+		 //this.del("user");
+			 this.delWebUserAttribute("user");
+		 }
+//		if (redisuser != null) {
+//			del(this.findcookie(request).getBytes());
+//		}
 
 		return "redirect:/";
 	}
