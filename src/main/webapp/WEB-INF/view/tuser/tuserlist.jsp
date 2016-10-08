@@ -96,7 +96,9 @@ function add_user1() {
 				handler : function() {
 					$('#userAddForm').form('submit', {
 						success : function(data) {
+							
 							var res = eval('(' + data + ')');
+							
 							if (res.statuscode == '1') {
 								$.messager.alert('友情提示', res.msg, 'info');
 								resetDG('#user');
