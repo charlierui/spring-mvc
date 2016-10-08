@@ -61,16 +61,16 @@
 			<td>运营商</td>
 			<td>
 			<select id="yunyings" style="width: 100px;">
-			<option value="1">联通</option>
-			<option value="2">移动</option>
+			<option value="1">一级</option>
+			<option value="2">一级-1</option>
 			</select>
 			</td>
 			<td>套餐类型</td>
 			<td>
 			<select id="tclx" style="width: 100px;">
 			<option value="">请选择</option>
-			<option value="7">套餐1</option>
-			<option value="7">套餐2</option>
+			<option value="7">二级</option>
+			<option value="7">二级-1</option>
 			</select>
 			</td>
 		</tr>
