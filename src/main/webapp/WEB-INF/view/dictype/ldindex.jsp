@@ -13,7 +13,7 @@
             $.ajax({
                 type:"POST",
                 url :"${ctx}/tdictypecon/listDictype",
-                data:{                	
+                data:{
                 	id:tclx
                 },
                 dataType:"json",
