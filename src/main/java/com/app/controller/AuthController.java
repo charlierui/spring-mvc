@@ -37,7 +37,7 @@ public class AuthController extends BaseController {
 	@SystemControllerLog(description = "权限分配用户列表查询")
 	@ResponseBody
 	public void listAllUser(TuserDto tus,HttpServletResponse response){
-		Map map=new HashMap<>();
+		Map<String,Object> map=new HashMap<String,Object>();
 		String deptid = null,name=null;
 		map.put("deptid", tus.getDeptid());
 		map.put("name", tus.getName());

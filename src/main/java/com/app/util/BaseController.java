@@ -327,7 +327,7 @@ public class BaseController implements RedisUtil {
 	 */
 	public TreeSet<String> keys() {
 		logger.debug("Start getting keys...");
-		TreeSet<String> keys = new TreeSet<>();
+		TreeSet<String> keys = new TreeSet<String>();
 		Map<String, JedisPool> clusterNodes = jedisCluster.getClusterNodes();
 		for (String k : clusterNodes.keySet()) {
 			logger.debug("Getting keys from: {}", k);

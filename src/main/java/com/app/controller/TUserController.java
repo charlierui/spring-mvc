@@ -69,7 +69,7 @@ public class TUserController extends BaseController {
 		Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
 		MultipartFile multipartFile = null;
 		String fileName = null;
-		List list=new ArrayList<>();
+		List<String> list=new ArrayList<String>();
 		for (Map.Entry<String, MultipartFile> set : fileMap.entrySet()) {
 			String filekey = set.getKey();// Filedata
 			multipartFile = set.getValue();// 文件名

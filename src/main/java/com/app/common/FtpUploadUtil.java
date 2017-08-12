@@ -346,12 +346,16 @@ public class FtpUploadUtil {
 		if(!".".equals( file.substring(0, 1))){
 			file="."+file;
 		}
-		switch (file) {
-		case ".jpg":  case ".gif":  case ".png": case ".jpeg":case ".bmp":  return fileType=FILE_TYPE_IMG;  
-		case ".mp3":  case ".wav":  case ".wma": case ".ogg": case ".acc":  return fileType=FILE_TYPE_AUDIO; 
-		case ".avi":  case ".wmv":  case ".flv": case ".3gp": case ".f4v":  return fileType=FILE_TYPE_VIDEO; 
-		case ".txt":  case ".doc":  case ".docx":   return fileType=FILE_TYPE_DOCUMENT; 
-		default: return fileType ; 
+		if (file.equals(".jpg") || file.equals(".gif") || file.equals(".png") || file.equals(".jpeg") || file.equals(".bmp")) {
+			return fileType = FILE_TYPE_IMG;
+		} else if (file.equals(".mp3") || file.equals(".wav") || file.equals(".wma") || file.equals(".ogg") || file.equals(".acc")) {
+			return fileType = FILE_TYPE_AUDIO;
+		} else if (file.equals(".avi") || file.equals(".wmv") || file.equals(".flv") || file.equals(".3gp") || file.equals(".f4v")) {
+			return fileType = FILE_TYPE_VIDEO;
+		} else if (file.equals(".txt") || file.equals(".doc") || file.equals(".docx")) {
+			return fileType = FILE_TYPE_DOCUMENT;
+		} else {
+			return fileType;
 		}
 	}
 	   
