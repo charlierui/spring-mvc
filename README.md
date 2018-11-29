@@ -3,7 +3,7 @@
 有需要的可以直接下载使用
 generatorSqlmapCustom 这个项目是 mybatis自动生成插件，可以生成model dao 和mapper文件。
 
-###有疑问可以加我QQ 695438455
+###有疑问可以加我微信 cr695438455
 
 ###从git下载的文件是这样的spring-mvc-master，其实真是的项目名称是spring-mvc 大家下载完记得修改一下然后再部署启动
 
